@@ -247,4 +247,49 @@ public class RationalTest
         Rational value = new Rational(0);
         assertThrows(IllegalArgumentException.class, () -> value.reciprocal());
     }
+
+    public void testTimes() {
+        Rational first = new Rational(2, 3);
+        Rational second = new Rational(5, 7);
+        Rational result = first.times(second);
+
+        assertThat("2 * 5 = 10", result.numerator(), is(10));
+        assertThat("3 * 7 = 21", result.denominator(), is(21));
+    }
+
+    public void testTimesNegativeNumeratorFirst() {
+        Rational first = new Rational(-2, 3);
+        Rational second = new Rational(5, 7);
+        Rational result = first.times(second);
+
+        assertThat("-2 * 5 = -10", result.numerator(), is(-10));
+        assertThat("3 * 7 = 21", result.denominator(), is(21));
+    }
+
+    public void testTimesNegativeNumeratorSecond() {
+        Rational first = new Rational(2, 3);
+        Rational second = new Rational(-5, 7);
+        Rational result = first.times(second);
+
+        assertThat("2 * -5 = -10", result.numerator(), is(-10));
+        assertThat("3 * 7 = 21", result.denominator(), is(21));
+    }
+
+    public void testTimesNegativeNumeratorBoth() {
+        Rational first = new Rational(-2, 3);
+        Rational second = new Rational(-5, 7);
+        Rational result = first.times(second);
+
+        assertThat("-2 * -5 = 10", result.numerator(), is(10));
+        assertThat("3 * 7 = 21", result.denominator(), is(21));
+    }
+
+    public void testTimesWithSimplification() {
+        Rational first = new Rational(4, 3);
+        Rational second = new Rational(18, 3);
+        Rational result = first.times(second);
+
+        assertThat("4 * 18 = 72 simplifies to 8", result.numerator(), is(8));
+        assertThat("3 * 3 = 9 simplifies to 1", result.denominator(), is(1));
+    }
 }
