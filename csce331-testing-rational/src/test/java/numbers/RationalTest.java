@@ -523,17 +523,17 @@ public class RationalTest
         assertThat("Denominator of result3 is 1", result3.denominator(), is(1));
     }
 
-    public void testPowerBig(){
+    public void testPowerBig() {
         Rational value = new Rational(4, 1);
 
         Rational result = value.raisedToThePowerOf(10);
         assertThat("Numerator of result is 1048576: 4^10 = 1048576", result.numerator(), is(1048576));
         assertThat("Denominator of result is 1", result.denominator(), is(1));
     }
-    
+
     public void testPowerBigNegative() {
         Rational value = new Rational(4, 1);
-        
+
         Rational result = value.raisedToThePowerOf(-10);
         assertThat("Numerator of result is 1", result.numerator(), is(1));
         assertThat("Denominator of result is 1048576: 4^10 = 1048576", result.denominator(), is(1048576));
@@ -547,19 +547,29 @@ public class RationalTest
         assertThrows(IllegalArgumentException.class, () -> value.raisedToThePowerOf(-1));
     }
 
-    public void testPowerNegativeNumeratorOddExponent(){
+    public void testPowerNegativeNumeratorOddExponent() {
         Rational value = new Rational(-5, 7);
-        
+
         Rational result = value.raisedToThePowerOf(3);
         assertThat("Numerator of result is -125: -5^3 = -125", result.numerator(), is(-125));
         assertThat("Denominator of result is 343: 7^3 = 343", result.denominator(), is(343));
     }
-    
-    public void testPowerNegativeNumeratorEvenExponent(){
+
+    public void testPowerNegativeNumeratorEvenExponent() {
         Rational value = new Rational(-5, 7);
-        
+
         Rational result = value.raisedToThePowerOf(2);
         assertThat("Numerator of result is 25: -5^2 = 25", result.numerator(), is(25));
         assertThat("Denominator of resut is 49", result.denominator(), is(49));
+    }
+
+    public void testIsZero(){
+        Rational value1 = new Rational(0, -2523);
+        Rational value2 = new Rational();
+        Rational value3 = new Rational(24, 1);
+
+        assertTrue(value1.isZero());
+        assertTrue(value2.isZero());
+        assertFalse(value3.isZero());
     }
 }
