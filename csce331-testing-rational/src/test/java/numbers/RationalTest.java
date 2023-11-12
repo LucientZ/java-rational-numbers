@@ -624,4 +624,5 @@ public class RationalTest
         assertThat("1243/2478 < -1243/2478 is false", !value1.lessThan(value2));
         assertThat("-1243/2478 < 1243/2478 is true", value2.lessThan(value1));
     }
+    
 }
