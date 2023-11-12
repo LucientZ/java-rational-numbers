@@ -689,37 +689,37 @@ public class RationalTest
         assertThat("-1243/2478 < 1243/2478 is true", value2.lessThan(value1));
     }
 
-    public void testLessThanPositiveInt(){
+    public void testLessThanPositiveInt() {
         Rational positiveValue = new Rational(50, 3);
         Rational negativeValue = new Rational(-50, 3);
-        
+
         assertThat("50/3 = 16.66... < 50 is true", positiveValue.lessThan(50), is(true));
         assertThat("50/3 = 16.66... < 15 is false", positiveValue.lessThan(15), is(false));
         assertThat("50/3 = 16.66... < 16 is false", positiveValue.lessThan(16), is(false));
         assertThat("50/3 = 16.66... < 17 is true", positiveValue.lessThan(17), is(true));
-        
+
         assertThat("-50/3 = -16.66... < 50 is true", negativeValue.lessThan(50), is(true));
         assertThat("-50/3 = -16.66... < 15 is true", negativeValue.lessThan(15), is(true));
         assertThat("-50/3 = -16.66... < 16 is true", negativeValue.lessThan(16), is(true));
         assertThat("-50/3 = -16.66... < 17 is true", negativeValue.lessThan(17), is(true));
     }
-    
-    public void testLessThanNegativeInt(){
+
+    public void testLessThanNegativeInt() {
         Rational positiveValue = new Rational(50, 3);
         Rational negativeValue = new Rational(-50, 3);
-        
+
         assertThat("50/3 = 16.66... < -50 is false", positiveValue.lessThan(-50), is(false));
         assertThat("50/3 = 16.66... < -15 is false", positiveValue.lessThan(-15), is(false));
         assertThat("50/3 = 16.66... < -16 is false", positiveValue.lessThan(-16), is(false));
         assertThat("50/3 = 16.66... < -17 is false", positiveValue.lessThan(-17), is(false));
-        
+
         assertThat("-50/3 = -16.66... < -50 is false", negativeValue.lessThan(-50), is(false));
         assertThat("-50/3 = -16.66... < -15 is true", negativeValue.lessThan(-15), is(true));
         assertThat("-50/3 = -16.66... < -16 is true", negativeValue.lessThan(-16), is(true));
         assertThat("-50/3 = -16.66... < -17 is false", negativeValue.lessThan(-17), is(false));
     }
 
-    public void testLessThanEqualInt(){
+    public void testLessThanEqualInt() {
         Rational positiveValue = new Rational(50, 2);
         Rational negativeValue = new Rational(-50, 2);
 
@@ -731,38 +731,38 @@ public class RationalTest
         assertThat("-50 / 2 = -25 < -25 is false", negativeValue.lessThan(-25), is(false));
         assertThat("-50 / 2 = -25 < -24 is true", negativeValue.lessThan(-24), is(true));
     }
-    
-    public void testLessThanPositiveLong(){
+
+    public void testLessThanPositiveLong() {
         Rational positiveValue = new Rational(50, 3);
         Rational negativeValue = new Rational(-50, 3);
-        
+
         assertThat("50/3 = 16.66... < 50 is true", positiveValue.lessThan(50L), is(true));
         assertThat("50/3 = 16.66... < 15 is false", positiveValue.lessThan(15L), is(false));
         assertThat("50/3 = 16.66... < 16 is false", positiveValue.lessThan(16L), is(false));
         assertThat("50/3 = 16.66... < 17 is true", positiveValue.lessThan(17L), is(true));
-        
+
         assertThat("-50/3 = -16.66... < 50 is true", negativeValue.lessThan(50L), is(true));
         assertThat("-50/3 = -16.66... < 15 is true", negativeValue.lessThan(15L), is(true));
         assertThat("-50/3 = -16.66... < 16 is true", negativeValue.lessThan(16L), is(true));
         assertThat("-50/3 = -16.66... < 17 is true", negativeValue.lessThan(17L), is(true));
     }
-    
-    public void testLessThanNegativeLong(){
+
+    public void testLessThanNegativeLong() {
         Rational positiveValue = new Rational(50, 3);
         Rational negativeValue = new Rational(-50, 3);
-        
+
         assertThat("50/3 = 16.66... < -50 is false", positiveValue.lessThan(-50L), is(false));
         assertThat("50/3 = 16.66... < -15 is false", positiveValue.lessThan(-15L), is(false));
         assertThat("50/3 = 16.66... < -16 is false", positiveValue.lessThan(-16L), is(false));
         assertThat("50/3 = 16.66... < -17 is false", positiveValue.lessThan(-17L), is(false));
-        
+
         assertThat("-50/3 = -16.66... < -50 is false", negativeValue.lessThan(-50L), is(false));
         assertThat("-50/3 = -16.66... < -15 is true", negativeValue.lessThan(-15L), is(true));
         assertThat("-50/3 = -16.66... < -16 is true", negativeValue.lessThan(-16L), is(true));
         assertThat("-50/3 = -16.66... < -17 is false", negativeValue.lessThan(-17L), is(false));
     }
-    
-    public void testLessThanEqualLong(){
+
+    public void testLessThanEqualLong() {
         Rational positiveValue = new Rational(50, 2);
         Rational negativeValue = new Rational(-50, 2);
 
@@ -773,5 +773,35 @@ public class RationalTest
         assertThat("-50 / 2 = -25 < -26 is false", negativeValue.lessThan(-26L), is(false));
         assertThat("-50 / 2 = -25 < -25 is false", negativeValue.lessThan(-25L), is(false));
         assertThat("-50 / 2 = -25 < -24 is true", negativeValue.lessThan(-24L), is(true));
+    }
+
+    public void testLessThanPositiveFloat() {
+        Rational positiveValue = new Rational(50, 3);
+        Rational negativeValue = new Rational(-50, 3);
+
+        assertThat("50 / 3 = 16.66.. < 17.0 is true", positiveValue.lessThan(17.0F), is(true));
+        assertThat("50 / 3 = 16.66.. < 16.667 is true", positiveValue.lessThan(16.667F), is(true));
+        assertThat("50 / 3 = 16.66.. < 16.665 is false", positiveValue.lessThan(16.665F), is(false));
+        assertThat("50 / 3 = 16.66.. < 16.0 is false", positiveValue.lessThan(16.0F), is(false));
+        
+        assertThat("-50 / 3 = -16.66.. < 17.0 is true", negativeValue.lessThan(17.0F), is(true));
+        assertThat("-50 / 3 = -16.66.. < 16.667 is true", negativeValue.lessThan(16.667F), is(true));
+        assertThat("-50 / 3 = -16.66.. < 16.665 is true", negativeValue.lessThan(16.665F), is(true));
+        assertThat("-50 / 3 = -16.66.. < 16.0 is true", negativeValue.lessThan(16.0F), is(true));
+    }
+
+    public void testLessThanNegativeFloat() {
+        Rational positiveValue = new Rational(50, 3);
+        Rational negativeValue = new Rational(-50, 3);
+
+        assertThat("50 / 3 = 16.66.. < -17.0 is false", positiveValue.lessThan(-17.0F), is(false));
+        assertThat("50 / 3 = 16.66.. < -16.667 is false", positiveValue.lessThan(-16.667F), is(false));
+        assertThat("50 / 3 = 16.66.. < -16.665 is false", positiveValue.lessThan(-16.665F), is(false));
+        assertThat("50 / 3 = 16.66.. < -16.0 is false", positiveValue.lessThan(-16.0F), is(false));
+        
+        assertThat("-50 / 3 = -16.66.. < -17.0 is false", negativeValue.lessThan(-17.0F), is(false));
+        assertThat("-50 / 3 = -16.66.. < -16.667 is false", negativeValue.lessThan(-16.667F), is(false));
+        assertThat("-50 / 3 = -16.66.. < -16.665 is true", negativeValue.lessThan(-16.665F), is(true));
+        assertThat("-50 / 3 = -16.66.. < -16.0 is true", negativeValue.lessThan(-16.0F), is(true));
     }
 }
