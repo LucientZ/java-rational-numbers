@@ -26,6 +26,11 @@ public class Rational {
         this.simplify();
     }
 
+    public Rational(Rational original){
+        this._numerator = original.numerator();
+        this._denominator = original.denominator();
+    }
+
     public int numerator() {
         return this._numerator;
     }

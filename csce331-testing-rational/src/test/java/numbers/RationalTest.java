@@ -134,17 +134,40 @@ public class RationalTest
         assertThat("Numerator is 1", value.numerator(), is(1));
         assertThat("Denominator is 1", value.denominator(), is(1));
     }
-    
+
     /**
      * Tests constructor with very big numbers (integer limits)
      */
-    public void testTwoArgumentConstructorVeryBigNumbers(){
+    public void testTwoArgumentConstructorVeryBigNumbers() {
         Rational value = new Rational(-2147483647, 2147483647);
-        
-        assertThat("Numerator is -2147483648", value.numerator(), is(-1));
-        assertThat("Denominator is 2147483647", value.denominator(), is(1));
+
+        assertThat("Numerator is -1", value.numerator(), is(-1));
+        assertThat("Denominator is 1", value.denominator(), is(1));
     }
 
-    
+    /**
+     * Tests a copy constructor which creates a `Rational` value given another
+     * `Rational`
+     */
+    public void testCopyConstructor() {
+        // Create a rational
+        Rational original = new Rational(2, 3);
 
+        // Creates a rational which copies original
+        Rational value = new Rational(original);
+
+        assertThat("Numerator is 2", value.numerator(), is(2));
+        assertThat("Denominator is 3", value.denominator(), is(3));
+    }
+
+    /**
+     * Tests that copy works with a negative numerator
+     */
+    public void testCopyConstructorNegativeNumerator() {
+        Rational original = new Rational(-23, 2);
+        Rational value = new Rational(original);
+
+        assertThat("Numerator is -23", value.numerator(), is(-23));
+        assertThat("Denominator is 2", value.denominator(), is(2));
+    }
 }
