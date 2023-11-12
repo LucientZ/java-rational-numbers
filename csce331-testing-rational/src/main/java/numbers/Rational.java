@@ -1,8 +1,8 @@
 package numbers;
 
 /**
- * Hello world!
- *
+ * This class implements a rational number. That is, a value with an numerator
+ * and denominator in which both values are integers.
  */
 public class Rational {
     private int _numerator;
@@ -104,16 +104,35 @@ public class Rational {
     }
 
     /**
-     * Divides self by another `Rational` and returns a new `Rational` with the result.
-     * Multiplies self with reciprocal of divisor
+     * Divides self by another `Rational` and returns a new `Rational` with the
+     * result.
+     * This implementation multiplies self with reciprocal of divisor
+     * 
      * @param divisor `Rational` value to divide by
      * @return `Rational` result of division
      */
-    public Rational dividedBy(Rational divisor){
-        if(divisor.numerator() == 0){
-            throw new IllegalArgumentException("Divisor must not have a numerator of 0 (This is equivalent to dividing by 0)");
+    public Rational dividedBy(Rational divisor) {
+        if (divisor.numerator() == 0) {
+            throw new IllegalArgumentException("Divisor must not have a numerator of 0");
         }
         return this.times(divisor.reciprocal());
+    }
+
+    /**
+     * Adds self by another `Rational` and returns resulting `Rational` value
+     * 
+     * @param addend `Rational` value to be added this object
+     * @return `Rational` value which is the result of summing this and
+     */
+    public Rational plus(Rational addend) {
+        // Find the least common denominator between the two rational numbers
+        int leastCommonDenominator = lcm(this._denominator, addend.denominator());
+
+        // Calculate the new numerators based on lcd
+        int firstNumerator = this._numerator * leastCommonDenominator / this._denominator;
+        int secondNumerator = addend.numerator() * leastCommonDenominator / addend.denominator();
+
+        return new Rational(firstNumerator + secondNumerator, leastCommonDenominator);
     }
 
     /**
@@ -166,6 +185,6 @@ public class Rational {
      * @return least common multiple of two numbers
      */
     private int lcm(int a, int b) {
-        return (a / gcd(a, b)) * b;
+        return (a * b) / gcd(a, b);
     }
 }
