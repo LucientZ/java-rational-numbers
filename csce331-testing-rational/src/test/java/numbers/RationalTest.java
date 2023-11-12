@@ -2,6 +2,7 @@ package numbers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThrows;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -43,7 +44,7 @@ public class RationalTest
     /**
      * Given a numerator 2, the fraction should be 2/1
      */
-    public void testOneArgumentConstructor(){
+    public void testOneArgumentConstructor() {
         // Create a `Rational` with argument `2`
         Rational value = new Rational(2);
 
@@ -53,9 +54,10 @@ public class RationalTest
     }
 
     /**
-     * Given a numerator and denominator 2/3, the numerator and denominator should reflect this
+     * Given a numerator and denominator 2/3, the numerator and denominator should
+     * reflect this
      */
-    public void testTwoArgumentConstructor(){
+    public void testTwoArgumentConstructor() {
         // Create a rational with arguments `2` and `3`
         Rational value = new Rational(2, 3);
 
@@ -67,7 +69,21 @@ public class RationalTest
     /**
      * If I have 48/-72, this can be simplified to -2/3
      */
-    public void testTwoArgumentConstructorSimplification(){
-        
+    public void testTwoArgumentConstructorSimplification() {
+        // Create a `Rational` value with `48` and `-72`
+        Rational value = new Rational(48, -72);
+
+        // Numerator: `-2`
+        assertThat("Rational simplifies with constructor: 48 / -72 = -2 / 3", value.numerator(), is(-2));
+        // Denominator: `3`
+        assertThat("Rational simplifies with constructor: 48 / -72 = -2 / 3", value.denominator(), is(3));
+    }
+
+    /**
+     * Given a denominator of 0, the constructor should throw an exception
+     */
+    public void testTwoArgumentConstructorInvalidDenominator(){
+        // This should throw
+        assertThrows(IllegalArgumentException.class, () -> new Rational(1, 0));
     }
 }
