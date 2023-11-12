@@ -761,5 +761,17 @@ public class RationalTest
         assertThat("-50/3 = -16.66... < -16 is true", negativeValue.lessThan(-16L), is(true));
         assertThat("-50/3 = -16.66... < -17 is false", negativeValue.lessThan(-17L), is(false));
     }
+    
+    public void testLessThanEqualLong(){
+        Rational positiveValue = new Rational(50, 2);
+        Rational negativeValue = new Rational(-50, 2);
 
+        assertThat("50 / 2 = 25 < 26 is true", positiveValue.lessThan(26L), is(true));
+        assertThat("50 / 2 = 25 < 25 is false", positiveValue.lessThan(25L), is(false));
+        assertThat("50 / 2 = 25 < 24 is false", positiveValue.lessThan(24L), is(false));
+
+        assertThat("-50 / 2 = -25 < -26 is false", negativeValue.lessThan(-26L), is(false));
+        assertThat("-50 / 2 = -25 < -25 is false", negativeValue.lessThan(-25L), is(false));
+        assertThat("-50 / 2 = -25 < -24 is true", negativeValue.lessThan(-24L), is(true));
+    }
 }
