@@ -297,8 +297,7 @@ public class Rational extends Number implements Comparable<Number> {
 
     @Override
     public float floatValue() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'floatValue'");
+        return (float) this._numerator / this._denominator;
     }
 
     @Override

@@ -643,10 +643,10 @@ public class RationalTest
     
         assertThat("Float conversion: 2583/1 -> 2583.0", value1.floatValue(), is(2583F));
         assertThat("Float conversion: 1/2 -> 0.5", value2.floatValue(), is(0.5F));
-        assertThat("Float conversion: -1/2 -> -0.5", value3.floatValue(), is(0.5F));
+        assertThat("Float conversion: -1/2 -> -0.5", value3.floatValue(), is(-0.5F));
         assertThat("Float conversion: -24352/2 = -12176/1 -> -12176.0", value4.floatValue(), is(-12176.0F));
         assertThat("Float conversion: 0/25213 = 0/1 -> 0", value5.floatValue(), is(0.0F));
-        assertThat("Float conversion: 24351/546 = 44.5989... -> 44", value6.floatValue(), is(44.489010989010989F));
+        assertThat("Float conversion: 24351/546 = 44.5989... -> 44", value6.floatValue(), is(44.5989010989011F));
     }
 
     public void testDoubleValue() {
