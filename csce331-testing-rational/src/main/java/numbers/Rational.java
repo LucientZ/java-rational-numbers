@@ -81,12 +81,19 @@ public class Rational {
     }
 
     /**
-     * Creates a new `Rational` which is the reciprocal of this object. A reciprocal is where
+     * Creates a new `Rational` which is the reciprocal of this object. A reciprocal
+     * is where
+     * 
      * @return
-     * @throws IllegalArgumentException when numerator is 0 (This will be thrown by the constructor)
+     * @throws IllegalArgumentException when numerator is 0 (This will be thrown by
+     *                                  the constructor)
      */
     public Rational reciprocal() {
         return new Rational(this._denominator, this._numerator);
+    }
+
+    public Rational times(Rational multiplier) {
+        return new Rational(this._numerator * multiplier._numerator, this._denominator * multiplier.denominator());
     }
 
     /**
