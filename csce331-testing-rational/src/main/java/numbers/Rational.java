@@ -188,6 +188,14 @@ public class Rational {
     }
 
     /**
+     * Function for checking if this is zero
+     * @return boolean as to whether this is canonical 0
+     */
+    public boolean isZero(){
+        return this._numerator == 0;
+    }
+
+    /**
      * Helper method which simplifies the numerator and denominator by ensuring sign
      * is in numerator and both numbers are divided by their gcd
      */
