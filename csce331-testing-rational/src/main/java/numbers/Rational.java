@@ -257,12 +257,31 @@ public class Rational extends Number implements Comparable<Number> {
         }
     }
 
-    public boolean greaterThan(Rational comparand){
-
+    public boolean greaterThan(Rational comparand) {
+        Rational result = this.minus(comparand);
+        return result.numerator() > 0;
     }
 
-    public boolean greaterThan(Number comparand){
-        
+    public boolean greaterThan(Number comparand) {
+        if (comparand instanceof Integer) {
+            if (this.intValue() == comparand.intValue()) {
+                return (this.doubleValue() - comparand.doubleValue()) > 0;
+            } else {
+                return this.intValue() > comparand.intValue();
+            }
+        } else if (comparand instanceof Long) {
+            if (this.longValue() == comparand.longValue()) {
+                return (this.doubleValue() - comparand.doubleValue()) > 0;
+            } else {
+                return this.longValue() > comparand.longValue();
+            }
+        } else if (comparand instanceof Float) {
+            return this.floatValue() > comparand.floatValue();
+        } else if (comparand instanceof Double) {
+            return this.doubleValue() > comparand.doubleValue();
+        } else {
+            return false;
+        }
     }
 
     /**
