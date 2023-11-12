@@ -582,7 +582,7 @@ public class RationalTest
 
         assertThat("124 / 124 is 1", value1.isOne());
         assertThat("0 / 1 is NOT 1", !value2.isOne());
-        assertThat("-24 / -24 is 1", value3.isOne();
+        assertThat("-24 / -24 is 1", value3.isOne());
         assertThat("-500 / 2 is NOT 1", !value4.isOne());
         assertThat("-1 / 1 is NOT 1", !value5.isOne());
     }

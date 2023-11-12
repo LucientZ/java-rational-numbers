@@ -188,11 +188,21 @@ public class Rational {
     }
 
     /**
-     * Function for checking if this is zero
+     * Function for checking if this is canonical zero
+     * 
      * @return boolean as to whether this is canonical 0
      */
-    public boolean isZero(){
+    public boolean isZero() {
         return this._numerator == 0;
+    }
+
+    /**
+     * Function for checking if this is canonical 1
+     * 
+     * @return boolean as to wheter this is canonical 1
+     */
+    public boolean isOne() {
+        return this._numerator == this._denominator;
     }
 
     /**
