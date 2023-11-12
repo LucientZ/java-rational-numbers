@@ -292,8 +292,7 @@ public class Rational extends Number implements Comparable<Number> {
 
     @Override
     public long longValue() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'longValue'");
+        return (long) this._numerator / this._denominator;
     }
 
     @Override
