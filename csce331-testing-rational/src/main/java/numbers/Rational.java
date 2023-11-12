@@ -199,10 +199,19 @@ public class Rational {
     /**
      * Function for checking if this is canonical 1
      * 
-     * @return boolean as to wheter this is canonical 1
+     * @return boolean as to whether this is canonical 1
      */
     public boolean isOne() {
         return this._numerator == this._denominator;
+    }
+
+    /**
+     * Function for checking if this is canonical -1
+     * 
+     * @return boolean as to whether this is canonical -1
+     */
+    public boolean isMinusOne() {
+        return (this._numerator * -1) == this._denominator;
     }
 
     /**
