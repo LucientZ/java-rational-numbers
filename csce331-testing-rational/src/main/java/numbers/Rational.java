@@ -19,6 +19,11 @@ public class Rational
         this.denominator = 1;
     }
 
+    public Rational(int numerator){
+        this.numerator = numerator;
+        this.denominator = 1;
+    }
+
     public int numerator(){
         return this.numerator;
     }

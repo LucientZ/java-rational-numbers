@@ -29,14 +29,23 @@ public class RationalTest
     }
 
     /**
-     * Rigourous Test :-)
+     * Tests if Rational initializes to having a numerator of 0 and denominator of 1
      */
-    public void testRational() {
+    public void testDefaultConstructor() {
         // Given no preconditions
-
         Rational value = new Rational();
 
+        // numerator = 0 and denominator = 1
         assertThat("The numerator is 0", value.numerator(), is(0));
+        assertThat("The denominator is 1", value.denominator(), is(1));
+    }
+
+    public void testOneArgumentConstructor(){
+        // Create a `Rational` with argument `2`
+        Rational value = new Rational(2);
+
+        // numerator = 2 and denominator = 1
+        assertThat("The numerator is 2", value.numerator(), is(2));
         assertThat("The denominator is 1", value.denominator(), is(1));
     }
 }
