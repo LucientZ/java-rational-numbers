@@ -451,7 +451,10 @@ public class RationalTest
         assertThat("Denominator of result is 1", result.denominator(), is(1));
     }
 
-    public void testMinutsDifferentDenominator(){
+    /**
+     * Tests subtraction when denominators are different
+     */
+    public void testMinusDifferentDenominator(){
         Rational first = new Rational(1, 2);
         Rational second = new Rational(3, 7);
 
@@ -463,5 +466,59 @@ public class RationalTest
         result = second.minus(first);
         assertThat("Numerator of result is -1", result.numerator(), is(-1));
         assertThat("Denominator of result is 14", result.denominator(), is(14));
+    }
+
+    /**
+     * Tests power when the numerator is 1
+     */
+    public void testPower(){
+        Rational value = new Rational(4, 12);
+
+        Rational result = value.raisedToThePowerOf(2);
+        assertThat("Numerator of result is 1: 4^2 = 16 simplifies to 1", result.numerator(), is(1));
+        assertThat("Denominator of result is 9: 12^2 = 144 simplifies to 9", result.denominator(), is(9));
+    }
+
+    /**
+     * This should return a `Rational` with the same values
+     */
+    public void testPowerOne(){
+        Rational value = new Rational(1234, 4321);
+
+        Rational result = value.raisedToThePowerOf(1);
+        assertThat("Numerator is 1234", result.numerator(), is(1234));
+        assertThat("Denominator of result is 4321", result.denominator(), is(4321));
+    }
+
+    /**
+     * This should return the reciprocal of the `Rational`
+     */
+    public void testPowerNegativeOne(){
+        Rational value = new Rational(1234, 4321);
+
+        Rational result = value.raisedToThePowerOf(-1);
+        assertThat("Numerator of result is 4321", result.numerator(), is(4321));
+        assertThat("Denominator of result is 1234", result.denominator(), is(1234));
+    }
+
+    /**
+     * Anything to the power of zero should be 1 / 1
+     */
+    public void testPowerZero(){
+        Rational value1 = new Rational(13532, 2314);
+        Rational value2 = new Rational(-24829, 242);
+        Rational value3 = new Rational(4732, -235235);
+
+        Rational result1 = value1.raisedToThePowerOf(0);
+        Rational result2 = value2.raisedToThePowerOf(0);
+        Rational result3 = value3.raisedToThePowerOf(0);
+
+        assertThat("Numerator of result1 is 1", result1.numerator(), is(1));
+        assertThat("Numerator of result2 is 1", result2.numerator(), is(1));
+        assertThat("Numerator of result3 is 1", result3.numerator(), is(1));
+        
+        assertThat("Denominator of result1 is 1", result1.denominator(), is(1));
+        assertThat("Denominator of result2 is 1", result2.denominator(), is(1));
+        assertThat("Denominator of result3 is 1", result3.denominator(), is(1));
     }
 }

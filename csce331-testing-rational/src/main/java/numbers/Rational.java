@@ -149,6 +149,10 @@ public class Rational {
         return this.plus(negativeSubtrahend);
     }
 
+ 
+    public Rational raisedToThePowerOf(int exponent){            
+    }
+
     /**
      * Helper method which simplifies the numerator and denominator by ensuring sign
      * is in numerator and both numbers are divided by their gcd
