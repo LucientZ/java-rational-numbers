@@ -599,6 +599,29 @@ public class RationalTest
         assertThat("24 / -24 is -1", value3.isMinusOne());
         assertThat("-500 / 2 is NOT -1", !value4.isMinusOne());
         assertThat("1 / 1 is NOT -1", !value5.isMinusOne());
+    }
 
+    public void testLessThanPositives(){
+        Rational value1 = new Rational(1, 8);
+        Rational value2 = new Rational(2, 8);
+        
+        assertThat("1/8 < 2/8 is true", value1.lessThan(value2));
+        assertThat("2/8 < 1/8 is false", !value2.lessThan(value1));
+    }
+    
+    public void testLessThanNegatives(){
+        Rational value1 = new Rational(-1, 8);
+        Rational value2 = new Rational(-2, 8);
+        
+        assertThat("-1/8 < -2/8 is false", !value1.lessThan(value2));
+        assertThat("-2/8 < -1/8 is true", value2.lessThan(value1));
+    }
+
+    public void testLessThanOneNegativeOnePositive(){
+        Rational value1 = new Rational(1243, 2478);
+        Rational value2 = new Rational(-1243, 2478);
+
+        assertThat("1243/2478 < -1243/2478 is false", !value1.lessThan(value2));
+        assertThat("-1243/2478 < 1243/2478 is true", value2.lessThan(value1));
     }
 }
