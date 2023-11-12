@@ -218,7 +218,8 @@ public class Rational extends Number implements Comparable<Number> {
      * Returns whether a given `Rational` value is less than this object's value
      * 
      * @param comparand `Rational` value to be compared to
-     * @return boolean as to whether or not this value is less than other `Rational` value
+     * @return boolean as to whether or not this value is less than other `Rational`
+     *         value
      */
     public boolean lessThan(Rational comparand) {
         Rational result = this.minus(comparand);
@@ -286,8 +287,7 @@ public class Rational extends Number implements Comparable<Number> {
 
     @Override
     public int intValue() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'intValue'");
+        return (int) this._numerator / this._denominator;
     }
 
     @Override

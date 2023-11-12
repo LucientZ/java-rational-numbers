@@ -601,7 +601,7 @@ public class RationalTest
         assertThat("1 / 1 is NOT -1", !value5.isMinusOne());
     }
 
-    public void testIntValue(){
+    public void testIntValue() {
         Rational value1 = new Rational(2583, 1);
         Rational value2 = new Rational(1, 2);
         Rational value3 = new Rational(-1, 2);
@@ -612,21 +612,20 @@ public class RationalTest
         assertThat("Integer conversion: 2583/1 -> 2583", value1.intValue(), is(2583));
         assertThat("Integer conversion: 1/2 -> 0", value2.intValue(), is(0));
         assertThat("Integer conversion: -1/2 -> 0", value3.intValue(), is(0));
-        assertThat("Integer conversion: -24352/2 = -12176/1 -> -12176", value4.intValue(), is(12176));
+        assertThat("Integer conversion: -24352/2 = -12176/1 -> -12176", value4.intValue(), is(-12176));
         assertThat("Integer conversion: 0/25213 = 0/1 -> 0", value5.intValue(), is(0));
         assertThat("Integer conversion: 24351/546 = 44.5989... -> 44", value6.intValue(), is(44));
     }
 
-    public void testLongValue(){
-        Rational value1 = new Rational(2583, 1);
+    public void testLongValue() {
     }
 
-    public void testFloatValue(){
+    public void testFloatValue() {
         Rational value1 = new Rational(2583, 1);
         Rational value2 = new Rational(1, 2);
     }
 
-    public void testDoubleValue(){
+    public void testDoubleValue() {
 
     }
 
