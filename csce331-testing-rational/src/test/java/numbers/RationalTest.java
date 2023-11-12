@@ -391,30 +391,30 @@ public class RationalTest
         Rational second = new Rational(2, 5);
 
         Rational result = first.plus(second);
-        assertThat("38 + 2 = 40 simplifies to 8", result.numerator(), is(8));
-        assertThat("5 simplifies to 1", result.denominator(), is(1));
+        assertThat("Numerator of result is 8: 38 + 2 = 40 simplifies to 8", result.numerator(), is(8));
+        assertThat("Denominator of result is 1: 5 simplifies to 1", result.denominator(), is(1));
         
         // Ensure commutative property of addition holds
         result = first.plus(second);
-        assertThat("38 + 2 = 40 simplifies to 8", result.numerator(), is(8));
-        assertThat("5 simplifies to 1", result.denominator(), is(1));
+        assertThat("Numerator of result is 8: 38 + 2 = 40 simplifies to 8", result.numerator(), is(8));
+        assertThat("Denominator of result is 1: 5 simplifies to 1", result.denominator(), is(1));
     }
     
     /**
      * Before adding, each `Rational` must first have the same denominator. This means the numerator
      */
-    public void testPlustDifferentDenominator(){
+    public void testPlusDifferentDenominator(){
         Rational first = new Rational(1, 2);
         Rational second = new Rational(3, 7);
         
         Rational result = first.plus(second);
-        assertThat("Numerator is 13", result.numerator(), is(13));
-        assertThat("Denominator is 14 because LCM(2, 7) = 14", result.denominator(), is(14));
+        assertThat("Numerator of result is 13: 7 + 6 = 13", result.numerator(), is(13));
+        assertThat("Denominator of result is 14 because LCM(2, 7) = 14", result.denominator(), is(14));
         
         // Ensure commutative property of addition holds
         result = first.plus(second);
-        assertThat("Numerator is 13", result.numerator(), is(13));
-        assertThat("Denominator is 14 because LCM(2, 7) = 14", result.denominator(), is(14));
+        assertThat("Numerator of result is 13: 7 + 6 = 13", result.numerator(), is(13));
+        assertThat("Denominator of result is 14 because LCM(2, 7) = 14", result.denominator(), is(14));
     }
     
     /**
@@ -425,12 +425,43 @@ public class RationalTest
         Rational second = new Rational(5, 20);
         
         Rational result = first.plus(second);
-        assertThat("Numerator is 3", result.numerator(), is(3));
-        assertThat("Denominator is 20", result.denominator(), is(20));
+        assertThat("Numerator of result is 3", result.numerator(), is(3));
+        assertThat("Denominator of result is 20", result.denominator(), is(20));
         
         // Ensure commutative property of addition holds
         result = second.plus(first);
-        assertThat("Numerator is 3", result.numerator(), is(3));
-        assertThat("Denominator is 20", result.denominator(), is(20));
+        assertThat("Numerator of result is 3: -2 + 5 = 3", result.numerator(), is(3));
+        assertThat("Denominator of result is 20", result.denominator(), is(20));
+    }
+
+    /**
+     * Tests basic subtraction with same denominator
+     */
+    public void testMinusSameDenominator(){
+        Rational first = new Rational(35, 1);
+        Rational second = new Rational(9, 1);
+
+        Rational result = first.minus(second);
+        assertThat("Numerator of result is 26: 35 - 9 = 26", result.numerator(), is(26));
+        assertThat("Denominator of result is 1", result.denominator(), is(1));
+
+        // Subtracts other way to ensure negative result is correct
+        result = second.minus(first);
+        assertThat("Numerator of result is -26: 9 - 35 = -26", result.numerator(), is(-26));
+        assertThat("Denominator of result is 1", result.denominator(), is(1));
+    }
+
+    public void testMinutsDifferentDenominator(){
+        Rational first = new Rational(1, 2);
+        Rational second = new Rational(3, 7);
+
+        Rational result = first.minus(second);
+        assertThat("Numerator of result is 1", result.numerator(), is(1));
+        assertThat("Denominator of result is 14", result.denominator(), is(14));
+
+        // Subtracts other way to ensure negative result is correct
+        result = second.minus(first);
+        assertThat("Numerator of result is -1", result.numerator(), is(-1));
+        assertThat("Denominator of result is 14", result.denominator(), is(14));
     }
 }
