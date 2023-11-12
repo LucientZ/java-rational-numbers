@@ -1079,23 +1079,23 @@ public class RationalTest
         assertThat("-2/3 < 1", negativeValue.compareTo(greaterFloat), is(-1));
         assertThat("-2/3 < 1", negativeValue.compareTo(greaterDouble), is(-1));
     }
-    
+
     public void testCompareToLess() {
         Rational positiveValue = new Rational(2, 3);
         Rational negativeValue = new Rational(-2, 3);
-        
+
         Rational greaterRational = new Rational(-1, 1);
         int greaterInt = -1;
         long greaterLong = -1L;
         float greaterFloat = -1.0F;
         double greaterDouble = -1.0D;
-        
+
         assertThat("Rational: 2/3 > 1", positiveValue.compareTo(greaterRational), is(1));
         assertThat("Integer: 2/3 > 1", positiveValue.compareTo(greaterInt), is(1));
         assertThat("Long: 2/3 > 1", positiveValue.compareTo(greaterLong), is(1));
         assertThat("Float: 2/3 > 1", positiveValue.compareTo(greaterFloat), is(1));
         assertThat("Double: 2/3 > 1", positiveValue.compareTo(greaterDouble), is(1));
-    
+
         assertThat("Rational: -2/3 > 1", negativeValue.compareTo(greaterRational), is(1));
         assertThat("Integer: -2/3 > 1", negativeValue.compareTo(greaterInt), is(1));
         assertThat("Long: -2/3 > 1", negativeValue.compareTo(greaterLong), is(1));
@@ -1103,7 +1103,7 @@ public class RationalTest
         assertThat("Double: -2/3 > 1", negativeValue.compareTo(greaterDouble), is(1));
     }
 
-    public void testCompareToEqual(){
+    public void testCompareToEqual() {
         Rational positiveValue = new Rational(78, 1);
         Rational negativeValue = new Rational(-78, 1);
 
@@ -1113,14 +1113,13 @@ public class RationalTest
         long equalPositiveLong = 78L;
         float equalPositiveFloat = 78.0F;
         double equalPositiveDouble = 78.0D;
-        
+
         assertThat("78/1 = 78", positiveValue.compareTo(equalPositiveRational), is(0));
         assertThat("78/1 = 78", positiveValue.compareTo(equalPositiveInt), is(0));
         assertThat("78/1 = 78", positiveValue.compareTo(equalPositiveLong), is(0));
         assertThat("78/1 = 78", positiveValue.compareTo(equalPositiveFloat), is(0));
         assertThat("78/1 = 78", positiveValue.compareTo(equalPositiveDouble), is(0));
-        
-        
+
         // Negative values
         Rational equalNegativeRational = new Rational(-156, 2);
         int equalNegativeInt = -78;
@@ -1133,5 +1132,41 @@ public class RationalTest
         assertThat("-78/1 = -78", negativeValue.compareTo(equalNegativeLong), is(0));
         assertThat("-78/1 = -78", negativeValue.compareTo(equalNegativeFloat), is(0));
         assertThat("-78/1 = -78", negativeValue.compareTo(equalNegativeDouble), is(0));
+    }
+
+    public void testToStringWholeNumbers() {
+        Rational value1 = new Rational(26, 1);
+        Rational value2 = new Rational(-26, 1);
+        Rational value3 = new Rational(0, 256);
+        Rational value4 = new Rational(124857);
+
+        assertThat("26/1 -> 26", value1.toString(), is("26"));
+        assertThat("-26/1 -> 26", value2.toString(), is("-26"));
+        assertThat("0/256 -> 0", value3.toString(), is("0"));
+        assertThat("124857/1 -> 124857", value4.toString(), is("124857"));
+    }
+
+    public void testToStringPositiveFraction(){
+        Rational value1 = new Rational(1, 2);
+        Rational value2 = new Rational(2, 3);
+        Rational value3 = new Rational(1543243, 29);
+        Rational value4 = new Rational(-2, -29875333);
+
+        assertThat("1/2 -> 1/2", value1.toString(), is("1/2"));
+        assertThat("2/3 -> 2/3", value2.toString(), is("2/3"));
+        assertThat("1543243/29 -> 1543243/29", value3.toString(), is("1543243/29"));
+        assertThat("-2/-29875333 -> 2/29875333", value4.toString(), is("2/29875333"));
+    }
+    
+    public void testToStringNegativeFraction(){
+        Rational value1 = new Rational(-1, 2);
+        Rational value2 = new Rational(2, -3);
+        Rational value3 = new Rational(1543243, -29);
+        Rational value4 = new Rational(-2, 29875333);
+    
+        assertThat("-1/2 -> -1/2", value1.toString(), is("-1/2"));
+        assertThat("2/-3 -> -2/3", value2.toString(), is("-2/3"));
+        assertThat("1543243/-29 -> -1543243/29", value3.toString(), is("-1543243/29"));
+        assertThat("-2/29875333 -> -2/29875333", value4.toString(), is("-2/29875333"));
     }
 }
