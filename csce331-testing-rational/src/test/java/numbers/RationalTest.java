@@ -632,8 +632,21 @@ public class RationalTest
         assertThat("Long conversion: 0/25213 = 0/1 -> 0", value5.longValue(), is(0L));
         assertThat("Long conversion: 24351/546 = 44.5989... -> 44", value6.longValue(), is(44L));
     }
-
+    
     public void testFloatValue() {
+        Rational value1 = new Rational(2583, 1);
+        Rational value2 = new Rational(1, 2);
+        Rational value3 = new Rational(-1, 2);
+        Rational value4 = new Rational(-24352, 2);
+        Rational value5 = new Rational(0, 25213);
+        Rational value6 = new Rational(24351, 546);
+    
+        assertThat("Float conversion: 2583/1 -> 2583.0", value1.floatValue(), is(2583F));
+        assertThat("Float conversion: 1/2 -> 0.5", value2.floatValue(), is(0.5F));
+        assertThat("Float conversion: -1/2 -> -0.5", value3.floatValue(), is(0.5F));
+        assertThat("Float conversion: -24352/2 = -12176/1 -> -12176.0", value4.floatValue(), is(-12176.0F));
+        assertThat("Float conversion: 0/25213 = 0/1 -> 0", value5.floatValue(), is(0.0F));
+        assertThat("Float conversion: 24351/546 = 44.5989... -> 44", value6.floatValue(), is(44.489010989010989F));
     }
 
     public void testDoubleValue() {
