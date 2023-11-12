@@ -689,4 +689,27 @@ public class RationalTest
         assertThat("-1243/2478 < 1243/2478 is true", value2.lessThan(value1));
     }
 
+    public void testLessThanPositiveInt(){
+        Rational positiveValue = new Rational(50, 3);
+        Rational negativeValue = new Rational(-50, 2);
+        
+        assertThat("50/3 = 16.66... < 50 is true", positiveValue.lessThan(50));
+        assertThat("50/3 = 16.66... < 16 is false", !positiveValue.lessThan(16));
+        
+        assertThat("-50/2 = -25 < 50 is true", negativeValue.lessThan(50));
+        assertThat("-50/2 = -25 < 16 is true", negativeValue.lessThan(16));
+    }
+    
+    public void testLessThanNegativeInt(){
+        Rational positiveValue = new Rational(50, 3);
+        Rational negativeValue = new Rational(-50, 2);
+        
+        assertThat("50/3 = 16.66... < -50 is false", !positiveValue.lessThan(50));
+        assertThat("50/3 = 16.66... < -16 is false", !positiveValue.lessThan(-16));
+
+        assertThat("-50/2 = -25 < -50 is false", !negativeValue.lessThan(-50));
+        assertThat("-50/2 = -25 < -16 is true", negativeValue.lessThan(-16));
+
+    }
+
 }

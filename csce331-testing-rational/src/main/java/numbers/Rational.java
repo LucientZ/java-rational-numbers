@@ -226,6 +226,10 @@ public class Rational extends Number implements Comparable<Number> {
         return result.numerator() < 0;
     }
 
+    public boolean lessThan(Number comparand){
+        
+    }
+
     /**
      * Helper method which simplifies the numerator and denominator by ensuring sign
      * is in numerator and both numbers are divided by their gcd
