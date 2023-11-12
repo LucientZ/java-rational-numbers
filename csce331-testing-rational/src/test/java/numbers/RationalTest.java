@@ -170,36 +170,81 @@ public class RationalTest
         assertThat("Numerator is -23", value.numerator(), is(-23));
         assertThat("Denominator is 2", value.denominator(), is(2));
     }
-    
+
     /**
      * Tests the creation of an additive inverse of value given a positive numerator
      */
-    public void testOppositePositiveNumerator(){
+    public void testOppositePositiveNumerator() {
         Rational value = new Rational(2, 3);
         Rational opposite = value.opposite();
-        
+
         // Ensure that `value` is unchanged
         assertThat("value Numerator is 2", value.numerator(), is(2));
         assertThat("value Denominator is 3", value.denominator(), is(3));
-        
-        // Ensure that opposite is the additive inverse
+
+        // Ensure that `opposite` is the additive inverse
         assertThat("opposite Numerator is -2", opposite.numerator(), is(-2));
         assertThat("opposite Denominator is 3", opposite.denominator(), is(3));
     }
-    
+
     /**
      * Tests the creation of an additive inverse given a negative numerator
      */
-    public void testOppositeNegativeNumerator(){
-        Rational value = new Rational(-2, 3);
+    public void testOppositeNegativeNumerator() {
+        Rational value = new Rational(2, -3);
         Rational opposite = value.opposite();
-        
+
         // Ensure that `value` is unchanged
         assertThat("value Numerator is -2", value.numerator(), is(-2));
         assertThat("value Denominator is 3", value.denominator(), is(3));
-        
-        // Ensure that opposite is the additive inverse
+
+        // Ensure that `opposite` is the additive inverse
         assertThat("opposite Numerator is 2", opposite.numerator(), is(2));
         assertThat("opposite Denominator is 3", opposite.denominator(), is(3));
+    }
+
+    /**
+     * Tests the reciprocal function.
+     * a / b -> b / a
+     */
+    public void testReciprocal() {
+        Rational value = new Rational(2, 3);
+        Rational reciprocal = value.reciprocal();
+
+        // Ensure that `value` is unchanged
+        assertThat("value Numerator is 2", value.numerator(), is(2));
+        assertThat("value Denominator is 3", value.denominator(), is(3));
+
+        // Ensure that `reciprocal` is the reciprocal
+        assertThat("reciprocal Numerator is 3", reciprocal.numerator(), is(3));
+        assertThat("reciprocal Denominator is 2", reciprocal.denominator(), is(2));
+    }
+
+    /**
+     * Ensures that the reciprocal follows the convention that the numerator is
+     * negative
+     * -a / b -> -b / a
+     */
+    public void testReciprocalNegativeNumerator() {
+        Rational value = new Rational(-2, 3);
+        Rational reciprocal = value.reciprocal();
+
+        // Ensure that `value` is unchanged
+        assertThat("value Numerator is -2", value.numerator(), is(-2));
+        assertThat("value Denominator is 3", value.denominator(), is(3));
+
+        // Ensure that `reciprocal` is the reciprocal
+        assertThat("reciprocal Numerator is -3", reciprocal.numerator(), is(-3));
+        assertThat("reciprocal Denominator is 2", reciprocal.denominator(), is(2));
+    }
+
+    /**
+     * Because the denominator should not be 0, if the numerator of a value is 0,
+     * its reciprocal should throw an exception.
+     * 0 / b -> b / 0 (NOT ALLOWED!)
+     */
+    public void testReciprocalZeroNumerator() {
+        Rational value = new Rational(0);
+        assertThrows(IllegalArgumentException.class, () -> value.reciprocal());
     }
 }
