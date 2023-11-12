@@ -4,7 +4,7 @@ package numbers;
  * This class implements a rational number. That is, a value with an numerator
  * and denominator in which both values are integers.
  */
-public class Rational {
+public class Rational extends Number implements Comparable<Number> {
     private int _numerator;
     private int _denominator;
 
@@ -265,5 +265,35 @@ public class Rational {
      */
     private int lcm(int a, int b) {
         return (a * b) / gcd(a, b);
+    }
+
+    @Override
+    public int compareTo(Number o) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
+    }
+
+    @Override
+    public int intValue() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'intValue'");
+    }
+
+    @Override
+    public long longValue() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'longValue'");
+    }
+
+    @Override
+    public float floatValue() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'floatValue'");
+    }
+
+    @Override
+    public double doubleValue() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'doubleValue'");
     }
 }
