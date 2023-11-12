@@ -248,14 +248,17 @@ public class RationalTest
         assertThrows(IllegalArgumentException.class, () -> value.reciprocal());
     }
 
+    /**
+     * Test multiplying two `Rational` values
+     */
     public void testTimes() {
         Rational first = new Rational(2, 3);
         Rational second = new Rational(5, 7);
-        
+
         Rational result = first.times(second);
         assertThat("2 * 5 = 10", result.numerator(), is(10));
         assertThat("3 * 7 = 21", result.denominator(), is(21));
-        
+
         // Ensure commutative property of multiplication holds
         result = second.times(first);
         assertThat("2 * 5 = 10", result.numerator(), is(10));
@@ -265,11 +268,11 @@ public class RationalTest
     public void testTimesNegativeNumeratorFirst() {
         Rational first = new Rational(-2, 3);
         Rational second = new Rational(5, 7);
-        
+
         Rational result = first.times(second);
         assertThat("-2 * 5 = -10", result.numerator(), is(-10));
         assertThat("3 * 7 = 21", result.denominator(), is(21));
-        
+
         // Ensure commutative property of multiplication holds
         result = second.times(first);
         assertThat("-2 * 5 = -10", result.numerator(), is(-10));
@@ -279,11 +282,11 @@ public class RationalTest
     public void testTimesNegativeNumeratorSecond() {
         Rational first = new Rational(2, 3);
         Rational second = new Rational(-5, 7);
-        
+
         Rational result = first.times(second);
         assertThat("2 * -5 = -10", result.numerator(), is(-10));
         assertThat("3 * 7 = 21", result.denominator(), is(21));
-        
+
         // Ensure commutative property of multiplication holds
         result = second.times(first);
         assertThat("2 * -5 = -10", result.numerator(), is(-10));
@@ -293,11 +296,11 @@ public class RationalTest
     public void testTimesNegativeNumeratorBoth() {
         Rational first = new Rational(-2, 3);
         Rational second = new Rational(-5, 7);
-        
+
         Rational result = first.times(second);
         assertThat("-2 * -5 = 10", result.numerator(), is(10));
         assertThat("3 * 7 = 21", result.denominator(), is(21));
-        
+
         // Ensure commutative property of multiplication holds
         result = second.times(first);
         assertThat("-2 * -5 = 10", result.numerator(), is(10));
@@ -307,14 +310,63 @@ public class RationalTest
     public void testTimesWithSimplification() {
         Rational first = new Rational(4, 3);
         Rational second = new Rational(18, 3);
-        
+
         Rational result = first.times(second);
         assertThat("4 * 18 = 72 simplifies to 8", result.numerator(), is(8));
         assertThat("3 * 3 = 9 simplifies to 1", result.denominator(), is(1));
-        
+
         // Ensure commutative property of multiplication holds
         result = second.times(first);
         assertThat("4 * 18 = 72 simplifies to 8", result.numerator(), is(8));
         assertThat("3 * 3 = 9 simplifies to 1", result.denominator(), is(1));
+    }
+    
+    public void testTimesWithZeroNumerator(){
+        Rational first = new Rational(0, 124);
+        Rational second = new Rational(2194, -214);
+        
+        Rational result = first.times(second);
+        assertThat("0 * 2194 = 0", result.numerator(), is(0));
+        assertThat("124 * -214 = -26536 simplifies to 1", result.denominator(), is(1));
+        
+        // Ensure commutative property of multiplication holds
+        result = second.times(first);
+        assertThat("0 * 2194 = 0", result.numerator(), is(0));
+        assertThat("124 * -214 = -26536 simplifies to 1", result.denominator(), is(1));
+    }
+
+    /**
+     * Test dividedBy() function which returns first / second
+     * (a / b) / (c / d) = (a / b) * (d / c)
+     */
+    public void testDividedBy(){
+        Rational first = new Rational(7, 5);
+        Rational second = new Rational(2, 3);
+        
+        Rational result = first.dividedBy(second);
+        assertThat("Result numerator is 21: 7 * 3 = 21", result.numerator(), is(21));
+        assertThat("Result denominator is 10: 5 * 2 = 10", result.denominator(), is(10));
+    }
+    
+    /**
+     * If the divisor has a numerator of 0, this should throw an IllegalArgumentException
+     */
+    public void testDividedByZero(){
+        Rational first = new Rational(7, 5);
+        Rational second = new Rational(0, 3);
+        
+        assertThrows(IllegalArgumentException.class, () -> first.dividedBy(second));
+    }
+    
+    /**
+     * This should work if the first value's numerator is 0
+     */
+    public void testDividingZero(){
+        Rational first = new Rational(0, 5);
+        Rational second = new Rational(2, 3);
+
+        Rational result = first.dividedBy(second);
+        assertThat("0 * 3 = 0", result.numerator(), is(0));
+        assertThat("5 * 2 = 10 simplifies to 1", result.denominator(), is(1));
     }
 }
