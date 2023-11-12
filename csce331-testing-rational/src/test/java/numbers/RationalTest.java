@@ -563,7 +563,7 @@ public class RationalTest
         assertThat("Denominator of resut is 49", result.denominator(), is(49));
     }
 
-    public void testIsZero(){
+    public void testIsZero() {
         Rational value1 = new Rational(0, -2523);
         Rational value2 = new Rational();
         Rational value3 = new Rational(24, 1);
@@ -573,7 +573,7 @@ public class RationalTest
         assertThat("24 / 1 is NOT 0", !value3.isZero());
     }
 
-    public void testIsOne(){
+    public void testIsOne() {
         Rational value1 = new Rational(124, 124);
         Rational value2 = new Rational(0);
         Rational value3 = new Rational(-24, -24);
@@ -586,14 +586,14 @@ public class RationalTest
         assertThat("-500 / 2 is NOT 1", !value4.isOne());
         assertThat("-1 / 1 is NOT 1", !value5.isOne());
     }
-    
-    public void testIsMinusOne(){
+
+    public void testIsMinusOne() {
         Rational value1 = new Rational(-124, 124);
         Rational value2 = new Rational(0);
         Rational value3 = new Rational(24, -24);
         Rational value4 = new Rational(-500, 2);
         Rational value5 = new Rational(1, 1);
-    
+
         assertThat("-124 / 124 is -1", value1.isMinusOne());
         assertThat("0 / 1 is NOT -1", !value2.isMinusOne());
         assertThat("24 / -24 is -1", value3.isMinusOne());
@@ -601,28 +601,57 @@ public class RationalTest
         assertThat("1 / 1 is NOT -1", !value5.isMinusOne());
     }
 
-    public void testLessThanPositives(){
+    public void testIntValue(){
+        Rational value1 = new Rational(2583, 1);
+        Rational value2 = new Rational(1, 2);
+        Rational value3 = new Rational(-1, 2);
+        Rational value4 = new Rational(-24352, 2);
+        Rational value5 = new Rational(0, 25213);
+        Rational value6 = new Rational(24351, 546);
+
+        assertThat("Integer conversion: 2583/1 -> 2583", value1.intValue(), is(2583));
+        assertThat("Integer conversion: 1/2 -> 0", value2.intValue(), is(0));
+        assertThat("Integer conversion: -1/2 -> 0", value3.intValue(), is(0));
+        assertThat("Integer conversion: -24352/2 = -12176/1 -> -12176", value4.intValue(), is(12176));
+        assertThat("Integer conversion: 0/25213 = 0/1 -> 0", value5.intValue(), is(0));
+        assertThat("Integer conversion: 24351/546 = 44.5989... -> 44", value6.intValue(), is(44));
+    }
+
+    public void testLongValue(){
+        Rational value1 = new Rational(2583, 1);
+    }
+
+    public void testFloatValue(){
+        Rational value1 = new Rational(2583, 1);
+        Rational value2 = new Rational(1, 2);
+    }
+
+    public void testDoubleValue(){
+
+    }
+
+    public void testLessThanPositives() {
         Rational value1 = new Rational(1, 8);
         Rational value2 = new Rational(2, 8);
-        
+
         assertThat("1/8 < 2/8 is true", value1.lessThan(value2));
         assertThat("2/8 < 1/8 is false", !value2.lessThan(value1));
     }
-    
-    public void testLessThanNegatives(){
+
+    public void testLessThanNegatives() {
         Rational value1 = new Rational(-1, 8);
         Rational value2 = new Rational(-2, 8);
-        
+
         assertThat("-1/8 < -2/8 is false", !value1.lessThan(value2));
         assertThat("-2/8 < -1/8 is true", value2.lessThan(value1));
     }
 
-    public void testLessThanOneNegativeOnePositive(){
+    public void testLessThanOneNegativeOnePositive() {
         Rational value1 = new Rational(1243, 2478);
         Rational value2 = new Rational(-1243, 2478);
 
         assertThat("1243/2478 < -1243/2478 is false", !value1.lessThan(value2));
         assertThat("-1243/2478 < 1243/2478 is true", value2.lessThan(value1));
     }
-    
+
 }
