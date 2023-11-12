@@ -303,6 +303,22 @@ public class Rational extends Number implements Comparable<Number> {
     }
 
     /**
+     * Returns a string representation of `Rational`
+     * If this is a whole number, returns string of numerator
+     * If this is not a whole number, returns a fraction with negative sign at front
+     * 
+     * @return String representation of `Rational` object
+     */
+    public String toString() {
+        this.simplify();
+        if (this._denominator == 1) {
+            return String.format("%d", this._numerator);
+        } else {
+            return String.format("%d/%d", this._numerator, this._denominator);
+        }
+    }
+
+    /**
      * Helper method which simplifies the numerator and denominator by ensuring sign
      * is in numerator and both numbers are divided by their gcd
      */
