@@ -568,8 +568,22 @@ public class RationalTest
         Rational value2 = new Rational();
         Rational value3 = new Rational(24, 1);
 
-        assertTrue(value1.isZero());
-        assertTrue(value2.isZero());
-        assertFalse(value3.isZero());
+        assertThat("0 / -2523 is 0", value1.isZero());
+        assertThat("0 / 1 is 0", value2.isZero());
+        assertThat("24 / 1 is NOT 0", !value3.isZero());
+    }
+
+    public void testIsOne(){
+        Rational value1 = new Rational(124, 124);
+        Rational value2 = new Rational(0);
+        Rational value3 = new Rational(-24, -24);
+        Rational value4 = new Rational(-500, 2);
+        Rational value5 = new Rational(-1, 1);
+
+        assertThat("124 / 124 is 1", value1.isOne());
+        assertThat("0 / 1 is NOT 1", !value2.isOne());
+        assertThat("-24 / -24 is 1", value3.isOne();
+        assertThat("-500 / 2 is NOT 1", !value4.isOne());
+        assertThat("-1 / 1 is NOT 1", !value5.isOne());
     }
 }
