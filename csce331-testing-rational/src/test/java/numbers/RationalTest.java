@@ -48,4 +48,13 @@ public class RationalTest
         assertThat("The numerator is 2", value.numerator(), is(2));
         assertThat("The denominator is 1", value.denominator(), is(1));
     }
+
+    public void testTwoArgumentConstructor(){
+        // Create a rational with arguments `2` and `3`
+        Rational value = new Rational(2, 3);
+
+        // numerator = 2 and denominator = 3
+        assertThat("The numerator is 2", value.numerator(), is(2));
+        assertThat("The denominator is 3", value.denominator(), is(3));
+    }
 }
