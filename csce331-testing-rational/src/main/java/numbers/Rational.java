@@ -257,6 +257,14 @@ public class Rational extends Number implements Comparable<Number> {
         }
     }
 
+    public boolean greaterThan(Rational comparand){
+
+    }
+
+    public boolean greaterThan(Number comparand){
+        
+    }
+
     /**
      * Helper method which simplifies the numerator and denominator by ensuring sign
      * is in numerator and both numbers are divided by their gcd
