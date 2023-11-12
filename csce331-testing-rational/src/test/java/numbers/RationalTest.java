@@ -320,15 +320,15 @@ public class RationalTest
         assertThat("4 * 18 = 72 simplifies to 8", result.numerator(), is(8));
         assertThat("3 * 3 = 9 simplifies to 1", result.denominator(), is(1));
     }
-    
-    public void testTimesWithZeroNumerator(){
+
+    public void testTimesWithZeroNumerator() {
         Rational first = new Rational(0, 124);
         Rational second = new Rational(2194, -214);
-        
+
         Rational result = first.times(second);
         assertThat("0 * 2194 = 0", result.numerator(), is(0));
         assertThat("124 * -214 = -26536 simplifies to 1", result.denominator(), is(1));
-        
+
         // Ensure commutative property of multiplication holds
         result = second.times(first);
         assertThat("0 * 2194 = 0", result.numerator(), is(0));
@@ -339,29 +339,30 @@ public class RationalTest
      * Test dividedBy() function which returns first / second
      * (a / b) / (c / d) = (a / b) * (d / c)
      */
-    public void testDividedBy(){
+    public void testDividedBy() {
         Rational first = new Rational(7, 5);
         Rational second = new Rational(2, 3);
-        
+
         Rational result = first.dividedBy(second);
         assertThat("Result numerator is 21: 7 * 3 = 21", result.numerator(), is(21));
         assertThat("Result denominator is 10: 5 * 2 = 10", result.denominator(), is(10));
     }
-    
+
     /**
-     * If the divisor has a numerator of 0, this should throw an IllegalArgumentException
+     * If the divisor has a numerator of 0, this should throw an
+     * IllegalArgumentException
      */
-    public void testDividedByZero(){
+    public void testDividedByZero() {
         Rational first = new Rational(7, 5);
         Rational second = new Rational(0, 3);
-        
+
         assertThrows(IllegalArgumentException.class, () -> first.dividedBy(second));
     }
-    
+
     /**
      * This should work if the first value's numerator is 0
      */
-    public void testDividingZero(){
+    public void testDividingZero() {
         Rational first = new Rational(0, 5);
         Rational second = new Rational(2, 3);
 
@@ -373,12 +374,63 @@ public class RationalTest
     /**
      * The result of the division should be simplified
      */
-    public void testDividingWithSimplification(){
+    public void testDividingWithSimplification() {
         Rational first = new Rational(12, 3);
         Rational second = new Rational(-2, 1);
 
         Rational result = first.dividedBy(second);
-        assertThat("", result.numerator(), is(-2));
-        assertThat("", result.denominator(), is(1));
+        assertThat("12 * 1 = 12 simplifies to -2", result.numerator(), is(-2));
+        assertThat("3 * -2 = 6 simplifies to 1", result.denominator(), is(1));
+    }
+
+    /**
+     * Tests if two numbers with the same denominator add correctly
+     */
+    public void testPlusSameDenominator() {
+        Rational first = new Rational(38, 5);
+        Rational second = new Rational(2, 5);
+
+        Rational result = first.plus(second);
+        assertThat("38 + 2 = 40 simplifies to 8", result.numerator(), is(8));
+        assertThat("5 simplifies to 1", result.denominator(), is(1));
+        
+        // Ensure commutative property of addition holds
+        result = first.plus(second);
+        assertThat("38 + 2 = 40 simplifies to 8", result.numerator(), is(8));
+        assertThat("5 simplifies to 1", result.denominator(), is(1));
+    }
+    
+    /**
+     * Before adding, each `Rational` must first have the same denominator. This means the numerator
+     */
+    public void testPlustDifferentDenominator(){
+        Rational first = new Rational(1, 2);
+        Rational second = new Rational(3, 7);
+        
+        Rational result = first.plus(second);
+        assertThat("Numerator is 13", result.numerator(), is(13));
+        assertThat("Denominator is 14 because LCM(2, 7) = 14", result.denominator(), is(14));
+        
+        // Ensure commutative property of addition holds
+        result = first.plus(second);
+        assertThat("Numerator is 13", result.numerator(), is(13));
+        assertThat("Denominator is 14 because LCM(2, 7) = 14", result.denominator(), is(14));
+    }
+    
+    /**
+     * Tests addition with first numerator being negative.
+     */
+    public void testPlusNegativeNumerator(){
+        Rational first = new Rational(-2, 20);
+        Rational second = new Rational(5, 20);
+        
+        Rational result = first.plus(second);
+        assertThat("Numerator is 3", result.numerator(), is(3));
+        assertThat("Denominator is 20", result.denominator(), is(20));
+        
+        // Ensure commutative property of addition holds
+        result = second.plus(first);
+        assertThat("Numerator is 3", result.numerator(), is(3));
+        assertThat("Denominator is 20", result.denominator(), is(20));
     }
 }
