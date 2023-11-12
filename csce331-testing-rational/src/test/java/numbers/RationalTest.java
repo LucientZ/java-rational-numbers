@@ -369,4 +369,16 @@ public class RationalTest
         assertThat("0 * 3 = 0", result.numerator(), is(0));
         assertThat("5 * 2 = 10 simplifies to 1", result.denominator(), is(1));
     }
+
+    /**
+     * The result of the division should be simplified
+     */
+    public void testDividingWithSimplification(){
+        Rational first = new Rational(12, 3);
+        Rational second = new Rational(-2, 1);
+
+        Rational result = first.dividedBy(second);
+        assertThat("", result.numerator(), is(-2));
+        assertThat("", result.denominator(), is(1));
+    }
 }

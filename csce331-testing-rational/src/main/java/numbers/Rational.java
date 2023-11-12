@@ -92,8 +92,28 @@ public class Rational {
         return new Rational(this._denominator, this._numerator);
     }
 
+    /**
+     * Multiplies self by another `Rational` and returns a new `Rational` with the
+     * result.
+     * 
+     * @param multiplier `Rational` value to multiply by
+     * @return `Rational` with result of multiplication
+     */
     public Rational times(Rational multiplier) {
         return new Rational(this._numerator * multiplier._numerator, this._denominator * multiplier.denominator());
+    }
+
+    /**
+     * Divides self by another `Rational` and returns a new `Rational` with the result.
+     * Multiplies self with reciprocal of divisor
+     * @param divisor `Rational` value to divide by
+     * @return `Rational` result of division
+     */
+    public Rational dividedBy(Rational divisor){
+        if(divisor.numerator() == 0){
+            throw new IllegalArgumentException("Divisor must not have a numerator of 0 (This is equivalent to dividing by 0)");
+        }
+        return this.times(divisor.reciprocal());
     }
 
     /**
