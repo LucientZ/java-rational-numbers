@@ -6,29 +6,27 @@ package numbers;
  */
 public class Rational 
 {
-    private int numerator;
-    private int denominator;
+    private int _numerator;
+    private int _denominator;
 
     public Rational(){
-        this.numerator = 0;
-        this.denominator = 1;
+        this(0);
     }
 
     public Rational(int numerator){
-        this.numerator = numerator;
-        this.denominator = 1;
+        this(numerator, 1);
     }
 
     public Rational(int numerator, int denominator){
-        this.numerator = numerator;
-        this.denominator = denominator;
+        this._numerator = numerator;
+        this._denominator = denominator;
     }
 
     public int numerator(){
-        return this.numerator;
+        return this._numerator;
     }
 
     public int denominator(){
-        return this.denominator;
+        return this._denominator;
     }
 }
