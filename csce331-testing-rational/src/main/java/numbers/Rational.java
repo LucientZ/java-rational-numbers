@@ -234,7 +234,9 @@ public class Rational extends Number implements Comparable<Number> {
      *         value
      */
     public boolean lessThan(Number comparand) {
-        if (comparand instanceof Integer) {
+        if (comparand instanceof Rational) {
+            return this.lessThan((Rational) comparand);
+        } else if (comparand instanceof Integer) {
             // When intValues are equal, need to check decimal with 0
             if (this.intValue() == comparand.intValue()) {
                 return (this.doubleValue() - comparand.doubleValue()) < 0;
@@ -277,7 +279,9 @@ public class Rational extends Number implements Comparable<Number> {
      *         `Number` value
      */
     public boolean greaterThan(Number comparand) {
-        if (comparand instanceof Integer) {
+        if (comparand instanceof Rational) {
+            return this.greaterThan((Rational) comparand);
+        } else if (comparand instanceof Integer) {
             if (this.intValue() == comparand.intValue()) {
                 return (this.doubleValue() - comparand.doubleValue()) > 0;
             } else {
@@ -353,8 +357,13 @@ public class Rational extends Number implements Comparable<Number> {
 
     @Override
     public int compareTo(Number o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
+        if (this.lessThan(o)) {
+            return -1;
+        } else if (this.greaterThan(o)) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     @Override
