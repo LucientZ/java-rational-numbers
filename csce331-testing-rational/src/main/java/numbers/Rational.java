@@ -149,8 +149,42 @@ public class Rational {
         return this.plus(negativeSubtrahend);
     }
 
- 
-    public Rational raisedToThePowerOf(int exponent){            
+    /**
+     * Implements fast powering algorithm to return a new `Rational` value.
+     * The new `Rational` value will reflect this^exponent
+     * 
+     * @param exponent power of which this is being raised
+     * @return `Rational` result of raising this object to the power of exponent
+     */
+    public Rational raisedToThePowerOf(int exponent) {
+        if (exponent == 0) {
+            return new Rational(1, 1);
+        } else if (exponent < 0 && this._numerator == 0) {
+            throw new IllegalArgumentException("Cannot raise 0 to the power of negative exponent.");
+        }
+
+        // Saves what is being powered (reciprocal if exponent is negative)
+        Rational base = exponent < 0 ? new Rational(this.reciprocal()) : new Rational(this);
+
+        // Object to be stored as result later
+        Rational result = new Rational(1, 1);
+
+        // Takes absolute value of exponent given.
+        exponent = exponent < 0 ? exponent * -1 : exponent;
+
+        // Fast powering which multiplies base times self or result based on if exponent
+        // is even
+        while (exponent > 0) {
+            if (exponent % 2 == 0) {
+                base = base.times(base);
+                exponent /= 2;
+            } else {
+                result = result.times(base);
+                exponent -= 1;
+            }
+        }
+
+        return result;
     }
 
     /**
