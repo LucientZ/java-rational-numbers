@@ -39,6 +39,10 @@ public class Rational {
         return this._denominator;
     }
 
+    public Rational opposite(){
+        return new Rational(this._numerator * -1, this._denominator);
+    }
+
     /**
      * Helper method which simplifies the numerator and denominator by ensuring sign
      * is in numerator and both numbers are divided by their gcd
