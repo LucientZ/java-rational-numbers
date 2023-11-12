@@ -82,8 +82,69 @@ public class RationalTest
     /**
      * Given a denominator of 0, the constructor should throw an exception
      */
-    public void testTwoArgumentConstructorInvalidDenominator(){
-        // This should throw
+    public void testTwoArgumentConstructorInvalidDenominator() {
+        // This should throw an error because a denominator value of 0 is not allowed
         assertThrows(IllegalArgumentException.class, () -> new Rational(1, 0));
     }
+
+    /**
+     * Given a negative numerator and positive denominator, these values should hold
+     * the same
+     */
+    public void testTwoArgumentConstructorNegativeNumerator() {
+        Rational value = new Rational(-9, 5);
+        assertThat("Numerator is -9", value.numerator(), is(-9));
+        assertThat("Denominator is 5", value.denominator(), is(5));
+    }
+
+    /**
+     * Given a positive numerator and negative denominator, the signs should flip
+     */
+    public void testTwoArgumentConstructorNegativeDenominator() {
+        Rational value = new Rational(9, -5);
+        assertThat("Numerator is -9", value.numerator(), is(-9));
+        assertThat("Denominator is 5", value.denominator(), is(5));
+    }
+
+    /**
+     * Given a negative numerator and negative denominator, the values should both
+     * be positive
+     */
+    public void testTwoArgumentConstructorNegativeNumeratorAndDenominator() {
+        Rational value = new Rational(-9, -5);
+        assertThat("Numerator is 9", value.numerator(), is(9));
+        assertThat("Denominator is 5", value.denominator(), is(5));
+    }
+
+    /**
+     * When the numerator is 0, this should simplify to 0 / 1 given any denominator
+     */
+    public void testTwoArgumentConstructorZeroNumerator() {
+        Rational value = new Rational(0, 3295);
+        assertThat("Numerator is 0", value.numerator(), is(0));
+        assertThat("Denominator is 1", value.denominator(), is(1));
+    }
+
+    /**
+     * Tests when the numerator and denominator arguments are equal to each other.
+     * This should simplify to 1 / 1
+     */
+    public void testTwoArgumentConstructorEqualNumeratorAndDenominator() {
+        Rational value = new Rational(125, 125);
+        assertThat("Numerator is 1", value.numerator(), is(1));
+        assertThat("Denominator is 1", value.denominator(), is(1));
+    }
+    
+    /**
+     * Tests constructor with very big numbers (integer limits)
+     */
+    public void testTwoArgumentConstructorVeryBigNumbers(){
+        Rational value = new Rational(-2147483647, 2147483647);
+        
+        assertThat("Numerator is -2147483648", value.numerator(), is(-1));
+        assertThat("Denominator is 2147483647", value.denominator(), is(1));
+    }
+
+    
+
 }
