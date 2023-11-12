@@ -82,13 +82,15 @@ public class Rational {
 
     /**
      * Creates a new `Rational` which is the reciprocal of this object. A reciprocal
-     * is where
+     * is where the numerator is swapped the denominator of a `Rational` number
      * 
      * @return
-     * @throws IllegalArgumentException when numerator is 0 (This will be thrown by
-     *                                  the constructor)
+     * @throws IllegalArgumentException when numerator is 0
      */
     public Rational reciprocal() {
+        if (this._numerator == 0) {
+            throw new IllegalArgumentException("Numerator of current object is 0. This will result in a divide by 0");
+        }
         return new Rational(this._denominator, this._numerator);
     }
 
@@ -110,6 +112,7 @@ public class Rational {
      * 
      * @param divisor `Rational` value to divide by
      * @return `Rational` result of division
+     * @throws IllegalArgumentException when divisor is equivalent to 0
      */
     public Rational dividedBy(Rational divisor) {
         if (divisor.numerator() == 0) {
@@ -133,6 +136,17 @@ public class Rational {
         int secondNumerator = addend.numerator() * leastCommonDenominator / addend.denominator();
 
         return new Rational(firstNumerator + secondNumerator, leastCommonDenominator);
+    }
+
+    /**
+     * Subtracts given `Rational` from self and returns resulting `Rational` value
+     * 
+     * @param subtrahend `Rational` value to be subtracted
+     * @return `Rational` result of subtracting subtrahend to this object
+     */
+    public Rational minus(Rational subtrahend) {
+        Rational negativeSubtrahend = new Rational(subtrahend.numerator() * -1, subtrahend.denominator());
+        return this.plus(negativeSubtrahend);
     }
 
     /**
