@@ -393,41 +393,42 @@ public class RationalTest
         Rational result = first.plus(second);
         assertThat("Numerator of result is 8: 38 + 2 = 40 simplifies to 8", result.numerator(), is(8));
         assertThat("Denominator of result is 1: 5 simplifies to 1", result.denominator(), is(1));
-        
+
         // Ensure commutative property of addition holds
         result = first.plus(second);
         assertThat("Numerator of result is 8: 38 + 2 = 40 simplifies to 8", result.numerator(), is(8));
         assertThat("Denominator of result is 1: 5 simplifies to 1", result.denominator(), is(1));
     }
-    
+
     /**
-     * Before adding, each `Rational` must first have the same denominator. This means the numerator
+     * Before adding, each `Rational` must first have the same denominator. This
+     * means the numerator
      */
-    public void testPlusDifferentDenominator(){
+    public void testPlusDifferentDenominator() {
         Rational first = new Rational(1, 2);
         Rational second = new Rational(3, 7);
-        
+
         Rational result = first.plus(second);
         assertThat("Numerator of result is 13: 7 + 6 = 13", result.numerator(), is(13));
         assertThat("Denominator of result is 14 because LCM(2, 7) = 14", result.denominator(), is(14));
-        
+
         // Ensure commutative property of addition holds
         result = first.plus(second);
         assertThat("Numerator of result is 13: 7 + 6 = 13", result.numerator(), is(13));
         assertThat("Denominator of result is 14 because LCM(2, 7) = 14", result.denominator(), is(14));
     }
-    
+
     /**
      * Tests addition with first numerator being negative.
      */
-    public void testPlusNegativeNumerator(){
+    public void testPlusNegativeNumerator() {
         Rational first = new Rational(-2, 20);
         Rational second = new Rational(5, 20);
-        
+
         Rational result = first.plus(second);
         assertThat("Numerator of result is 3", result.numerator(), is(3));
         assertThat("Denominator of result is 20", result.denominator(), is(20));
-        
+
         // Ensure commutative property of addition holds
         result = second.plus(first);
         assertThat("Numerator of result is 3: -2 + 5 = 3", result.numerator(), is(3));
@@ -437,7 +438,7 @@ public class RationalTest
     /**
      * Tests basic subtraction with same denominator
      */
-    public void testMinusSameDenominator(){
+    public void testMinusSameDenominator() {
         Rational first = new Rational(35, 1);
         Rational second = new Rational(9, 1);
 
@@ -454,7 +455,7 @@ public class RationalTest
     /**
      * Tests subtraction when denominators are different
      */
-    public void testMinusDifferentDenominator(){
+    public void testMinusDifferentDenominator() {
         Rational first = new Rational(1, 2);
         Rational second = new Rational(3, 7);
 
@@ -471,7 +472,7 @@ public class RationalTest
     /**
      * Tests power when the numerator is 1
      */
-    public void testPower(){
+    public void testPower() {
         Rational value = new Rational(4, 12);
 
         Rational result = value.raisedToThePowerOf(2);
@@ -482,7 +483,7 @@ public class RationalTest
     /**
      * This should return a `Rational` with the same values
      */
-    public void testPowerOne(){
+    public void testPowerOne() {
         Rational value = new Rational(1234, 4321);
 
         Rational result = value.raisedToThePowerOf(1);
@@ -493,7 +494,7 @@ public class RationalTest
     /**
      * This should return the reciprocal of the `Rational`
      */
-    public void testPowerNegativeOne(){
+    public void testPowerNegativeOne() {
         Rational value = new Rational(1234, 4321);
 
         Rational result = value.raisedToThePowerOf(-1);
@@ -504,7 +505,7 @@ public class RationalTest
     /**
      * Anything to the power of zero should be 1 / 1
      */
-    public void testPowerZero(){
+    public void testPowerZero() {
         Rational value1 = new Rational(13532, 2314);
         Rational value2 = new Rational(-24829, 242);
         Rational value3 = new Rational(4732, -235235);
@@ -516,9 +517,49 @@ public class RationalTest
         assertThat("Numerator of result1 is 1", result1.numerator(), is(1));
         assertThat("Numerator of result2 is 1", result2.numerator(), is(1));
         assertThat("Numerator of result3 is 1", result3.numerator(), is(1));
-        
+
         assertThat("Denominator of result1 is 1", result1.denominator(), is(1));
         assertThat("Denominator of result2 is 1", result2.denominator(), is(1));
         assertThat("Denominator of result3 is 1", result3.denominator(), is(1));
+    }
+
+    public void testPowerBig(){
+        Rational value = new Rational(4, 1);
+
+        Rational result = value.raisedToThePowerOf(10);
+        assertThat("Numerator of result is 1048576: 4^10 = 1048576", result.numerator(), is(1048576));
+        assertThat("Denominator of result is 1", result.denominator(), is(1));
+    }
+    
+    public void testPowerBigNegative() {
+        Rational value = new Rational(4, 1);
+        
+        Rational result = value.raisedToThePowerOf(-10);
+        assertThat("Numerator of result is 1", result.numerator(), is(1));
+        assertThat("Denominator of result is 1048576: 4^10 = 1048576", result.denominator(), is(1048576));
+    }
+
+    /**
+     * Should throw when numerator is 0 and exponent is negative
+     */
+    public void testPowerZeroNumeratorAndNegativeExponent() {
+        Rational value = new Rational(0, 1);
+        assertThrows(IllegalArgumentException.class, () -> value.raisedToThePowerOf(-1));
+    }
+
+    public void testPowerNegativeNumeratorOddExponent(){
+        Rational value = new Rational(-5, 7);
+        
+        Rational result = value.raisedToThePowerOf(3);
+        assertThat("Numerator of result is -125: -5^3 = -125", result.numerator(), is(-125));
+        assertThat("Denominator of result is 343: 7^3 = 343", result.denominator(), is(343));
+    }
+    
+    public void testPowerNegativeNumeratorEvenExponent(){
+        Rational value = new Rational(-5, 7);
+        
+        Rational result = value.raisedToThePowerOf(2);
+        assertThat("Numerator of result is 25: -5^2 = 25", result.numerator(), is(25));
+        assertThat("Denominator of resut is 49", result.denominator(), is(49));
     }
 }
