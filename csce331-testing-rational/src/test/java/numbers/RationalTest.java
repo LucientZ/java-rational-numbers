@@ -812,6 +812,10 @@ public class RationalTest
         assertThat("50 / 3 = 16.66.. < 50.1/3.0 is true", positiveValue.lessThan(50.1F/3.0F), is(true));
         assertThat("50 / 3 = 16.66.. < 50.0/3.0 is false", positiveValue.lessThan(50.0F/3.0F), is(false));
         assertThat("50 / 3 = 16.66.. < 49.9/3.0 is false", positiveValue.lessThan(49.9F/3.0F), is(false));
+        
+        assertThat("50 / 3 = 16.66.. < -50.1/3.0 is false", negativeValue.lessThan(-50.1F/3.0F), is(false));
+        assertThat("50 / 3 = 16.66.. < -50.0/3.0 is false", negativeValue.lessThan(-50.0F/3.0F), is(false));
+        assertThat("50 / 3 = 16.66.. < -49.9/3.0 is true", negativeValue.lessThan(-49.9F/3.0F), is(true));
     }
 
     public void testLessThanPositiveDouble() {
