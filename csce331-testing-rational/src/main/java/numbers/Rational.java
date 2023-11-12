@@ -302,7 +302,6 @@ public class Rational extends Number implements Comparable<Number> {
 
     @Override
     public double doubleValue() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'doubleValue'");
+        return (double) this._numerator / this._denominator;
     }
 }

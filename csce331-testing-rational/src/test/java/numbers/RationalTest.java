@@ -632,7 +632,7 @@ public class RationalTest
         assertThat("Long conversion: 0/25213 = 0/1 -> 0", value5.longValue(), is(0L));
         assertThat("Long conversion: 24351/546 = 44.5989... -> 44", value6.longValue(), is(44L));
     }
-    
+
     public void testFloatValue() {
         Rational value1 = new Rational(2583, 1);
         Rational value2 = new Rational(1, 2);
@@ -640,7 +640,7 @@ public class RationalTest
         Rational value4 = new Rational(-24352, 2);
         Rational value5 = new Rational(0, 25213);
         Rational value6 = new Rational(24351, 546);
-    
+
         assertThat("Float conversion: 2583/1 -> 2583.0", value1.floatValue(), is(2583F));
         assertThat("Float conversion: 1/2 -> 0.5", value2.floatValue(), is(0.5F));
         assertThat("Float conversion: -1/2 -> -0.5", value3.floatValue(), is(-0.5F));
@@ -648,7 +648,7 @@ public class RationalTest
         assertThat("Float conversion: 0/25213 = 0/1 -> 0", value5.floatValue(), is(0.0F));
         assertThat("Float conversion: 24351/546 = 44.5989... -> 44", value6.floatValue(), is(44.5989010989011F));
     }
-    
+
     public void testDoubleValue() {
         Rational value1 = new Rational(2583, 1);
         Rational value2 = new Rational(1, 2);
@@ -656,7 +656,7 @@ public class RationalTest
         Rational value4 = new Rational(-24352, 2);
         Rational value5 = new Rational(0, 25213);
         Rational value6 = new Rational(24351, 546);
-    
+
         assertThat("Double conversion: 2583/1 -> 2583.0", value1.doubleValue(), is(2583D));
         assertThat("Double conversion: 1/2 -> 0.5", value2.doubleValue(), is(0.5D));
         assertThat("Double conversion: -1/2 -> -0.5", value3.doubleValue(), is(-0.5D));
