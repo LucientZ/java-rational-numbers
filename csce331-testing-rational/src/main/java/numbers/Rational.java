@@ -226,8 +226,35 @@ public class Rational extends Number implements Comparable<Number> {
         return result.numerator() < 0;
     }
 
-    public boolean lessThan(Number comparand){
-        
+    /**
+     * Returns whether a given `Number` value is less than this object's value
+     * 
+     * @param comparand `Number` value to be compared to
+     * @return boolean as to whether or not this value is less than other `Number`
+     *         value
+     */
+    public boolean lessThan(Number comparand) {
+        if (comparand instanceof Integer) {
+            // When intValues are equal, need to check decimal with 0
+            if (this.intValue() == comparand.intValue()) {
+                return (this.doubleValue() - comparand.doubleValue()) < 0;
+            } else {
+                return this.intValue() < comparand.intValue();
+            }
+        } else if (comparand instanceof Long) {
+            // When longValues are equal, need to check decimal with 0
+            if (this.longValue() == comparand.longValue()) {
+                return (this.doubleValue() - comparand.doubleValue()) < 0;
+            } else {
+                return this.longValue() < comparand.longValue();
+            }
+        } else if (comparand instanceof Float) {
+            return this.floatValue() < comparand.floatValue();
+        } else if (comparand instanceof Double) {
+            return this.doubleValue() < comparand.doubleValue();
+        } else {
+            return false;
+        }
     }
 
     /**
