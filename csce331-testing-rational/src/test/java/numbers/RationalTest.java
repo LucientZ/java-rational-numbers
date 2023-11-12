@@ -40,6 +40,9 @@ public class RationalTest
         assertThat("The denominator is 1", value.denominator(), is(1));
     }
 
+    /**
+     * Given a numerator 2, the fraction should be 2/1
+     */
     public void testOneArgumentConstructor(){
         // Create a `Rational` with argument `2`
         Rational value = new Rational(2);
@@ -49,6 +52,9 @@ public class RationalTest
         assertThat("The denominator is 1", value.denominator(), is(1));
     }
 
+    /**
+     * Given a numerator and denominator 2/3, the numerator and denominator should reflect this
+     */
     public void testTwoArgumentConstructor(){
         // Create a rational with arguments `2` and `3`
         Rational value = new Rational(2, 3);
@@ -56,5 +62,12 @@ public class RationalTest
         // numerator = 2 and denominator = 3
         assertThat("The numerator is 2", value.numerator(), is(2));
         assertThat("The denominator is 3", value.denominator(), is(3));
+    }
+
+    /**
+     * If I have 48/-72, this can be simplified to -2/3
+     */
+    public void testTwoArgumentConstructorSimplification(){
+        
     }
 }
