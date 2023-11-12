@@ -170,4 +170,36 @@ public class RationalTest
         assertThat("Numerator is -23", value.numerator(), is(-23));
         assertThat("Denominator is 2", value.denominator(), is(2));
     }
+    
+    /**
+     * Tests the creation of an additive inverse of value given a positive numerator
+     */
+    public void testOppositePositiveNumerator(){
+        Rational value = new Rational(2, 3);
+        Rational opposite = value.opposite();
+        
+        // Ensure that `value` is unchanged
+        assertThat("value Numerator is 2", value.numerator(), is(2));
+        assertThat("value Denominator is 3", value.denominator(), is(3));
+        
+        // Ensure that opposite is the additive inverse
+        assertThat("opposite Numerator is -2", opposite.numerator(), is(-2));
+        assertThat("opposite Denominator is 3", opposite.denominator(), is(3));
+    }
+    
+    /**
+     * Tests the creation of an additive inverse given a negative numerator
+     */
+    public void testOppositeNegativeNumerator(){
+        Rational value = new Rational(-2, 3);
+        Rational opposite = value.opposite();
+        
+        // Ensure that `value` is unchanged
+        assertThat("value Numerator is -2", value.numerator(), is(-2));
+        assertThat("value Denominator is 3", value.denominator(), is(3));
+        
+        // Ensure that opposite is the additive inverse
+        assertThat("opposite Numerator is 2", opposite.numerator(), is(2));
+        assertThat("opposite Denominator is 3", opposite.denominator(), is(3));
+    }
 }
