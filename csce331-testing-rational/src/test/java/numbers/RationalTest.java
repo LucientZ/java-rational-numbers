@@ -586,4 +586,19 @@ public class RationalTest
         assertThat("-500 / 2 is NOT 1", !value4.isOne());
         assertThat("-1 / 1 is NOT 1", !value5.isOne());
     }
+    
+    public void testIsMinusOne(){
+        Rational value1 = new Rational(-124, 124);
+        Rational value2 = new Rational(0);
+        Rational value3 = new Rational(24, -24);
+        Rational value4 = new Rational(-500, 2);
+        Rational value5 = new Rational(1, 1);
+    
+        assertThat("-124 / 124 is -1", value1.isMinusOne());
+        assertThat("0 / 1 is NOT -1", !value2.isMinusOne());
+        assertThat("24 / -24 is -1", value3.isMinusOne());
+        assertThat("-500 / 2 is NOT -1", !value4.isMinusOne());
+        assertThat("1 / 1 is NOT -1", !value5.isMinusOne());
+
+    }
 }
