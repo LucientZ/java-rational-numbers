@@ -302,8 +302,21 @@ public class Rational extends Number implements Comparable<Number> {
         }
     }
 
-    public boolean equals(Object o){
-        
+    /**
+     * Determines whether this object is equivalent in value to another object.
+     * If given object is not an instance of Number, returns false.
+     * If given object is an instance of number, returns if value is same.
+     * 
+     * @param object object to check equality of
+     * @return boolean as to whether given object is is equivalent to this
+     *         `Rational` value
+     */
+    public boolean equals(Object object) {
+        if (object instanceof Number) {
+            return !(this.lessThan((Number) object) || this.greaterThan((Number) object));
+        } else {
+            return false;
+        }
     }
 
     /**
