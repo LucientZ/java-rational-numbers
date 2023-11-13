@@ -420,6 +420,8 @@ public class Rational extends Number implements Comparable<Number> {
      * @return greatest common divisor between two numbers
      */
     private int gcd(int a, int b) {
+        a = a < 0 ? a * -1 : a; // Takes absolute value of a
+        b = b < 0 ? b * -1 : b; // Takes absolute value of b
         if (b == 0) {
             return a;
         }
