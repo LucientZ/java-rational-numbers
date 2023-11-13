@@ -363,7 +363,7 @@ public class Rational extends Number implements Comparable<Number> {
      */
     public boolean equals(Object object) {
         if (object instanceof Number) {
-            return !(this.lessThan((Number) object) || this.greaterThan((Number) object));
+            return this.compareTo((Number) object) == 0;
         } else {
             return false;
         }
