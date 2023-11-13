@@ -79,6 +79,17 @@ public class RationalTest
         assertThat("Rational simplifies with constructor: 48 / -72 = -2 / 3", value.denominator(), is(3));
     }
 
+    public void testTwoArgumentConstructorZeroSimplification(){
+        Rational value1 = new Rational(0, Integer.MAX_VALUE);
+        Rational value2 = new Rational(0, Integer.MIN_VALUE);
+
+        assertThat("Numerator of value1 is 0", value1.numerator(), is(0));
+        assertThat("Numerator of value2 is 0", value2.numerator(), is(0));
+        
+        assertThat("Denominator of value1 is 1", value1.denominator(), is(1));
+        assertThat("Denominator of value2 is 1", value2.denominator(), is(1));
+    }
+
     /**
      * Given a denominator of 0, the constructor should throw an exception
      */

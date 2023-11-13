@@ -5,8 +5,8 @@ package numbers;
  * and denominator in which both values are integers.
  */
 public class Rational extends Number implements Comparable<Number> {
-    private int _numerator;
-    private int _denominator;
+    private int _numerator = 0;
+    private int _denominator = 1;
 
     /**
      * Default constructor. Creates a new `Rational` with a value 0 / 1
