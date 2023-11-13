@@ -302,6 +302,10 @@ public class Rational extends Number implements Comparable<Number> {
         }
     }
 
+    public boolean equals(Object o){
+        
+    }
+
     /**
      * Returns a string representation of `Rational`
      * If this is a whole number, returns string of numerator

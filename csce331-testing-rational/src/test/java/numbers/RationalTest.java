@@ -1146,7 +1146,7 @@ public class RationalTest
         assertThat("124857/1 -> 124857", value4.toString(), is("124857"));
     }
 
-    public void testToStringPositiveFraction(){
+    public void testToStringPositiveFraction() {
         Rational value1 = new Rational(1, 2);
         Rational value2 = new Rational(2, 3);
         Rational value3 = new Rational(1543243, 29);
@@ -1157,16 +1157,51 @@ public class RationalTest
         assertThat("1543243/29 -> 1543243/29", value3.toString(), is("1543243/29"));
         assertThat("-2/-29875333 -> 2/29875333", value4.toString(), is("2/29875333"));
     }
-    
-    public void testToStringNegativeFraction(){
+
+    public void testToStringNegativeFraction() {
         Rational value1 = new Rational(-1, 2);
         Rational value2 = new Rational(2, -3);
         Rational value3 = new Rational(1543243, -29);
         Rational value4 = new Rational(-2, 29875333);
-    
+
         assertThat("-1/2 -> -1/2", value1.toString(), is("-1/2"));
         assertThat("2/-3 -> -2/3", value2.toString(), is("-2/3"));
         assertThat("1543243/-29 -> -1543243/29", value3.toString(), is("-1543243/29"));
         assertThat("-2/29875333 -> -2/29875333", value4.toString(), is("-2/29875333"));
+    }
+
+    public void testEqualsEqualValues() {
+        Rational wholeValue = new Rational(-358729);
+        Rational wholeValueCopy = new Rational(wholeValue);
+        assertThat("Whole: Self == Self", wholeValue.equals(wholeValueCopy), is(true));
+        assertThat("Whole: Self == Copy", wholeValue.equals(wholeValueCopy), is(true));
+        assertThat("Whole: Integer: -358729 == -358729", wholeValue.equals(-358729), is(true));
+        assertThat("Whole: Long: -358729 == -358729", wholeValue.equals(-358729L), is(true));
+        assertThat("Whole: Float: -358729 == -358729", wholeValue.equals(-358729F), is(true));
+        assertThat("Whole: Double: -358729 == -358729", wholeValue.equals(-358729D), is(true));
+
+        Rational fractionalValue = new Rational(38497, 2479);
+        Rational fractionalValueCopy = new Rational(fractionalValue);
+        assertThat("Fractional: Self == Self", fractionalValue.equals(fractionalValue), is(true));
+        assertThat("Fractional: Self == Copy", fractionalValue.equals(fractionalValueCopy), is(true));
+        assertThat("Fractional: Float: 38497/2479 == 38497/2479", fractionalValue.equals(38497F / 2479F), is(true));
+        assertThat("Fractional: Double: 38497/2479 == 38497/2479", fractionalValue.equals(38497D / 2479D), is(true));
+        assertThat("Fractional: Float: 38497/2479 == -38497/2479", fractionalValue.equals(-38497F / 2479F), is(false));
+    }
+
+    public void testEqualsUnequalValues() {
+        Rational unequalRational = new Rational(125837, 32507343);
+
+        Rational wholeValue = new Rational(-358729);
+        assertThat("Whole: 'Rational' is not equal to `String`", wholeValue.equals("ascbhjd"), is(false));
+        assertThat("Whole: -358729/1 != 125837/32507343", wholeValue.equals(unequalRational), is(false));
+        assertThat("Whole: -358729/1 != 3", wholeValue.equals(3), is(false));
+
+        Rational fractionalValue = new Rational(38497, 2479);
+        assertThat("Fractional: 'Rational' is not equal to `String`", fractionalValue.equals("ascbhjd"), is(false));
+        assertThat("Fractional: 38497/2479 != 125837/32507343", fractionalValue.equals(unequalRational), is(false));
+        assertThat("Integer: 38497/2479 != 38497/2479", fractionalValue.equals(38497 / 2479), is(false));
+        assertThat("Long: 38497/2479 != 38497/2479", fractionalValue.equals(38497L / 2479L), is(false));
+        assertThat("Long: 38497/2479 != 0.5", fractionalValue.equals(0.5), is(false));
     }
 }
