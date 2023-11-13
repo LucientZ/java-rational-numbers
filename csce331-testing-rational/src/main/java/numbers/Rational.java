@@ -266,8 +266,10 @@ public class Rational extends Number implements Comparable<Number> {
      *         value
      */
     public boolean lessThan(Rational comparand) {
-        if (comparand == null) {
+        if (comparand == null || this._numerator >= 0 && comparand.numerator() < 0) {
             return false;
+        } else if (this._numerator < 0 && comparand.numerator() >= 0) {
+            return true;
         }
         Rational result = this.minus(comparand);
         return result.numerator() < 0;
@@ -314,8 +316,10 @@ public class Rational extends Number implements Comparable<Number> {
      *         `Rational` value
      */
     public boolean greaterThan(Rational comparand) {
-        if (comparand == null) {
+        if (comparand == null || this._numerator < 0 && comparand.numerator() >= 0) {
             return false;
+        } else if (this._numerator >= 0 && comparand.numerator() < 0) {
+            return true;
         }
         Rational result = this.minus(comparand);
         return result.numerator() > 0;
@@ -361,12 +365,23 @@ public class Rational extends Number implements Comparable<Number> {
      * @return boolean as to whether given object is is equivalent to this
      *         `Rational` value
      */
+    @Override
     public boolean equals(Object object) {
-        if (object instanceof Number) {
-            return this.compareTo((Number) object) == 0;
-        } else {
+        if (!(object instanceof Number)) {
             return false;
+        } else {
+            return this.compareTo((Number) object) == 0;
         }
+    }
+
+    /**
+     * Returns hashcode based on the string representation of this value
+     * 
+     * @return consistent int hashcode
+     */
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
     }
 
     /**

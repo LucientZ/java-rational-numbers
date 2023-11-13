@@ -120,7 +120,7 @@ public class RationalTest
      * When the numerator is 0, this should simplify to 0 / 1 given any denominator
      */
     public void testTwoArgumentConstructorZeroNumerator() {
-        Rational value = new Rational(0, 3295);
+        Rational value = new Rational();
         assertThat("Numerator is 0", value.numerator(), is(0));
         assertThat("Denominator is 1", value.denominator(), is(1));
     }
@@ -634,7 +634,7 @@ public class RationalTest
 
     public void testIsOne() {
         Rational value1 = new Rational(124, 124);
-        Rational value2 = new Rational(0);
+        Rational value2 = new Rational();
         Rational value3 = new Rational(-24, -24);
         Rational value4 = new Rational(-500, 2);
         Rational value5 = new Rational(-1, 1);
@@ -648,7 +648,7 @@ public class RationalTest
 
     public void testIsMinusOne() {
         Rational value1 = new Rational(-124, 124);
-        Rational value2 = new Rational(0);
+        Rational value2 = new Rational();
         Rational value3 = new Rational(24, -24);
         Rational value4 = new Rational(-500, 2);
         Rational value5 = new Rational(1, 1);
@@ -713,7 +713,7 @@ public class RationalTest
         Rational value2 = new Rational(1, 2);
         Rational value3 = new Rational(-1, 2);
         Rational value4 = new Rational(-24352, 2);
-        Rational value5 = new Rational(0, 25213);
+        Rational value5 = new Rational();
         Rational value6 = new Rational(24351, 546);
 
         assertThat("Double conversion: 2583/1 -> 2583.0", value1.doubleValue(), is(2583D));
@@ -1196,7 +1196,7 @@ public class RationalTest
     public void testToStringWholeNumbers() {
         Rational value1 = new Rational(26, 1);
         Rational value2 = new Rational(-26, 1);
-        Rational value3 = new Rational(0, 256);
+        Rational value3 = new Rational();
         Rational value4 = new Rational(124857);
 
         assertThat("26/1 -> 26", value1.toString(), is("26"));
@@ -1314,5 +1314,40 @@ public class RationalTest
     public void testEqualsNull() {
         Rational value = new Rational(1234);
         assertThat("value is not equal to null", value.equals(null), is(false));
+    }
+
+    public void testCompareToLongUpperLimit() {
+        Rational value = new Rational(Integer.MAX_VALUE);
+
+        assertThat("2147483647 < 9223372036854775807", value.lessThan(Long.MAX_VALUE), is(true));
+        assertThat("2147483647 < 9223372036854775807", value.greaterThan(Long.MAX_VALUE), is(false));
+        assertThat("2147483647 < 9223372036854775807", value.compareTo(Long.MAX_VALUE), is(-1));
+    }
+
+    public void testCompareToLongLowerLimit() {
+        Rational value = new Rational(Integer.MIN_VALUE);
+
+        assertThat("2147483647 > -9223372036854775808", value.lessThan(Long.MIN_VALUE), is(false));
+        assertThat("2147483647 > -9223372036854775808", value.greaterThan(Long.MIN_VALUE), is(true));
+        assertThat("2147483647 > -9223372036854775808", value.compareTo(Long.MIN_VALUE), is(1));
+    }
+
+    public void testCompareToIntegerLimits() {
+        Rational maxValue = new Rational(Integer.MAX_VALUE);
+        Rational minValue = new Rational(Integer.MIN_VALUE);
+
+        assertThat("MAX_INT > MIN_INT", maxValue.lessThan(minValue), is(false));
+        assertThat("MAX_INT > MIN_INT", maxValue.greaterThan(minValue), is(true));
+        assertThat("MAX_INT > MIN_INT", maxValue.compareTo(minValue), is(1));
+        assertThat("MAX_INT > MIN_INT", minValue.lessThan(maxValue), is(true));
+        assertThat("MAX_INT > MIN_INT", minValue.greaterThan(maxValue), is(false));
+        assertThat("MAX_INT > MIN_INT", minValue.compareTo(maxValue), is(-1));
+    }
+
+    public void testHashCode() {
+        Rational value = new Rational(1, 2);
+        assertThat("Hashcode comes from string of numerator and denominator", value.hashCode(), is("1/2".hashCode()));
+        value = new Rational(2, 1);
+        assertThat("Hashcode comes from string of numerator and denominator", value.hashCode(), is("2".hashCode()));
     }
 }
