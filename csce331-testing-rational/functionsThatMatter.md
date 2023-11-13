@@ -21,7 +21,7 @@ times(Rational): Rational
 dividedBy(Rational): Rational
 plus(Rational): Rational
 minus(Rational): Rational
-raisedToThePowerOf(int): Rational
+raisedToThePowerOf(int): Rational // Check this one and see if it can be optimized
 
 // Property boolean methods
 isZero(): boolean
@@ -39,7 +39,7 @@ equals(Object): boolean
 toString(): String
 
 // Helper methods
-simplify(): void
+simplify(): void // good
 gcd(int, int): int
 lcm(int, int): int
 

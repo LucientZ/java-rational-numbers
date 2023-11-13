@@ -167,12 +167,9 @@ public class Rational extends Number implements Comparable<Number> {
         long tempNumerator = firstNumeratorTerm + secondNumeratorTerm;
         long tempDenominator = lcm(this.denominator(), addend.denominator());
 
-        // Simplify numerator and denominator
-        while (gcd(tempNumerator, tempDenominator) != 1) {
-            long divisor = gcd(tempNumerator, tempDenominator);
-            tempNumerator /= divisor;
-            tempDenominator /= divisor;
-        }
+        long divisor = gcd(tempNumerator, tempDenominator);
+        tempNumerator /= divisor;
+        tempDenominator /= divisor;
 
         tempNumerator *= numeratorGCD;
 
@@ -404,12 +401,10 @@ public class Rational extends Number implements Comparable<Number> {
         int tempNumerator = this._numerator < 0 ? this._numerator * -1 : this._numerator;
         int tempDenominator = this._denominator;
 
-        // Divides numerator and denominator by greatest common divisor until simplified
-        while (gcd(tempNumerator, tempDenominator) != 1) {
-            int divisor = gcd(tempNumerator, tempDenominator);
-            tempNumerator /= divisor;
-            tempDenominator /= divisor;
-        }
+        // Divides numerator and denominator by greatest common divisor to simplify
+        int divisor = gcd(tempNumerator, tempDenominator);
+        tempNumerator /= divisor;
+        tempDenominator /= divisor;
 
         this._numerator = this._numerator < 0 ? tempNumerator *= -1 : tempNumerator;
         this._denominator = tempDenominator;
