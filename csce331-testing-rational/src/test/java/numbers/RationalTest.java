@@ -1187,15 +1187,15 @@ public class RationalTest
         assertThat("Fractional: Float: 38497/2479 == 38497/2479", fractionalValue.equals(38497F / 2479F), is(true));
         assertThat("Fractional: Double: 38497/2479 == 38497/2479", fractionalValue.equals(38497D / 2479D), is(true));
     }
-    
+
     public void testEqualsUnequalValues() {
         Rational unequalRational = new Rational(125837, 32507343);
-        
+
         Rational wholeValue = new Rational(-358729);
         assertThat("Whole: 'Rational' is not equal to `String`", wholeValue.equals("ascbhjd"), is(false));
         assertThat("Whole: -358729/1 != 125837/32507343", wholeValue.equals(unequalRational), is(false));
         assertThat("Whole: -358729/1 != 3", wholeValue.equals(3), is(false));
-        
+
         Rational fractionalValue = new Rational(38497, 2479);
         assertThat("Fractional: 'Rational' is not equal to `String`", fractionalValue.equals("ascbhjd"), is(false));
         assertThat("Fractional: 38497/2479 != 125837/32507343", fractionalValue.equals(unequalRational), is(false));
@@ -1203,5 +1203,57 @@ public class RationalTest
         assertThat("Long: 38497/2479 != 38497/2479", fractionalValue.equals(38497L / 2479L), is(false));
         assertThat("Long: 38497/2479 != 0.5", fractionalValue.equals(0.5), is(false));
         assertThat("Fractional: Float: 38497/2479 != -38497/2479", fractionalValue.equals(-38497F / 2479F), is(false));
+    }
+
+    /////////////////////////////////////////
+    // NULL TESTS
+    /////////////////////////////////////////
+
+    public void testConstructorNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Rational(null);
+        });
+    }
+
+    public void testTimesNull() {
+        Rational value = new Rational(1234);
+        assertThrows(IllegalArgumentException.class, () -> value.times(null));
+    }
+
+    public void testDividedByNull() {
+        Rational value = new Rational(1234);
+        assertThrows(IllegalArgumentException.class, () -> value.dividedBy(null));
+    }
+
+    public void testPlusNull() {
+        Rational value = new Rational(1234);
+        assertThrows(IllegalArgumentException.class, () -> value.plus(null));
+    }
+
+    public void testMinusNull() {
+        Rational value = new Rational(1234);
+        assertThrows(IllegalArgumentException.class, () -> value.minus(null));
+    }
+
+    public void testLessThanNull() {
+        Rational value = new Rational(1234);
+        assertThrows(IllegalArgumentException.class, () -> value.lessThan((Rational) null));
+        assertThrows(IllegalArgumentException.class, () -> value.lessThan((Number) null));
+    }
+
+    public void testGreaterThanNull() {
+        Rational value = new Rational(1234);
+        assertThrows(IllegalArgumentException.class, () -> value.greaterThan((Rational) null));
+        assertThrows(IllegalArgumentException.class, () -> value.greaterThan((Number) null));
+    }
+
+    public void testCompareToNull() {
+        Rational value = new Rational(1234);
+        assertThrows(IllegalArgumentException.class, () -> value.compareTo(null));
+    }
+
+    public void testEqualsNull() {
+        Rational value = new Rational(1234);
+        assertThrows(IllegalArgumentException.class, () -> value.equals(null));
     }
 }

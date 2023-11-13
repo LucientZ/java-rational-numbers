@@ -48,6 +48,9 @@ public class Rational extends Number implements Comparable<Number> {
      * @param original `Rational` to be copied
      */
     public Rational(Rational original) {
+        if (original == null) {
+            throw new IllegalArgumentException("Rational cannot be null");
+        }
         this._numerator = original.numerator();
         this._denominator = original.denominator();
     }
@@ -102,6 +105,9 @@ public class Rational extends Number implements Comparable<Number> {
      * @return `Rational` with result of multiplication
      */
     public Rational times(Rational multiplier) {
+        if (multiplier == null) {
+            throw new IllegalArgumentException("Rational cannot be null");
+        }
         return new Rational(this._numerator * multiplier._numerator, this._denominator * multiplier.denominator());
     }
 
@@ -115,6 +121,9 @@ public class Rational extends Number implements Comparable<Number> {
      * @throws IllegalArgumentException when divisor is equivalent to 0
      */
     public Rational dividedBy(Rational divisor) {
+        if (divisor == null) {
+            throw new IllegalArgumentException("Rational cannot be null");
+        }
         if (divisor.numerator() == 0) {
             throw new IllegalArgumentException("Divisor must not have a numerator of 0");
         }
@@ -128,6 +137,9 @@ public class Rational extends Number implements Comparable<Number> {
      * @return `Rational` value which is the result of summing this and
      */
     public Rational plus(Rational addend) {
+        if (addend == null) {
+            throw new IllegalArgumentException("Rational cannot be null");
+        }
         // Find the least common denominator between the two rational numbers
         int leastCommonDenominator = lcm(this._denominator, addend.denominator());
 
@@ -145,6 +157,9 @@ public class Rational extends Number implements Comparable<Number> {
      * @return `Rational` result of subtracting subtrahend to this object
      */
     public Rational minus(Rational subtrahend) {
+        if (subtrahend == null) {
+            throw new IllegalArgumentException("Rational cannot be null");
+        }
         Rational negativeSubtrahend = subtrahend.opposite();
         return this.plus(negativeSubtrahend);
     }
@@ -222,6 +237,9 @@ public class Rational extends Number implements Comparable<Number> {
      *         value
      */
     public boolean lessThan(Rational comparand) {
+        if (comparand == null) {
+            throw new IllegalArgumentException("Rational cannot be null");
+        }
         Rational result = this.minus(comparand);
         return result.numerator() < 0;
     }
@@ -234,6 +252,9 @@ public class Rational extends Number implements Comparable<Number> {
      *         value
      */
     public boolean lessThan(Number comparand) {
+        if (comparand == null) {
+            throw new IllegalArgumentException("Rational cannot be null");
+        }
         if (comparand instanceof Rational) {
             return this.lessThan((Rational) comparand);
         } else if (comparand instanceof Integer) {
@@ -267,6 +288,9 @@ public class Rational extends Number implements Comparable<Number> {
      *         `Rational` value
      */
     public boolean greaterThan(Rational comparand) {
+        if (comparand == null) {
+            throw new IllegalArgumentException("Rational cannot be null");
+        }
         Rational result = this.minus(comparand);
         return result.numerator() > 0;
     }
@@ -279,6 +303,9 @@ public class Rational extends Number implements Comparable<Number> {
      *         `Number` value
      */
     public boolean greaterThan(Number comparand) {
+        if (comparand == null) {
+            throw new IllegalArgumentException("Rational cannot be null");
+        }
         if (comparand instanceof Rational) {
             return this.greaterThan((Rational) comparand);
         } else if (comparand instanceof Integer) {
@@ -312,6 +339,9 @@ public class Rational extends Number implements Comparable<Number> {
      *         `Rational` value
      */
     public boolean equals(Object object) {
+        if (object == null) {
+            throw new IllegalArgumentException("Rational cannot be null");
+        }
         if (object instanceof Number) {
             return !(this.lessThan((Number) object) || this.greaterThan((Number) object));
         } else {
@@ -390,6 +420,9 @@ public class Rational extends Number implements Comparable<Number> {
 
     @Override
     public int compareTo(Number o) {
+        if (o == null) {
+            throw new IllegalArgumentException("Number cannot be null");
+        }
         if (this.lessThan(o)) {
             return -1;
         } else if (this.greaterThan(o)) {
@@ -401,21 +434,21 @@ public class Rational extends Number implements Comparable<Number> {
 
     @Override
     public int intValue() {
-        return (int) this._numerator / this._denominator;
+        return (int) this._numerator / (int) this._denominator;
     }
 
     @Override
     public long longValue() {
-        return (long) this._numerator / this._denominator;
+        return (long) this._numerator / (long) this._denominator;
     }
 
     @Override
     public float floatValue() {
-        return (float) this._numerator / this._denominator;
+        return (float) this._numerator / (float) this._denominator;
     }
 
     @Override
     public double doubleValue() {
-        return (double) this._numerator / this._denominator;
+        return (double) this._numerator / (double) this._denominator;
     }
 }
