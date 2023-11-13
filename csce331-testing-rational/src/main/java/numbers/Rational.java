@@ -452,8 +452,6 @@ public class Rational extends Number implements Comparable<Number> {
      * @return least common multiple of two numbers
      */
     private int lcm(int a, int b) {
-        a = a < 0 ? a * -1 : a; // Takes absolute value of a
-        b = b < 0 ? b * -1 : b; // Takes absolute value of b
         return a * (b / gcd(a, b));
     }
 
