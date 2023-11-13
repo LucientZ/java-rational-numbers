@@ -53,6 +53,7 @@ public class Rational extends Number implements Comparable<Number> {
         }
         this._numerator = original.numerator();
         this._denominator = original.denominator();
+        this.simplify();
     }
 
     /**
@@ -108,7 +109,13 @@ public class Rational extends Number implements Comparable<Number> {
         if (multiplier == null) {
             throw new IllegalArgumentException("Rational cannot be null");
         }
-        return new Rational(this._numerator * multiplier._numerator, this._denominator * multiplier.denominator());
+
+        // Attempts to reduce overflow by switching numerators and denominators which
+        // simplifies the equation.
+        Rational reduced1 = new Rational(this._numerator, multiplier.denominator());
+        Rational reduced2 = new Rational(multiplier.numerator(), this._denominator);
+        return new Rational(reduced1.numerator() * reduced2.numerator(),
+                reduced1.denominator() * reduced2.denominator());
     }
 
     /**
@@ -140,14 +147,36 @@ public class Rational extends Number implements Comparable<Number> {
         if (addend == null) {
             throw new IllegalArgumentException("Rational cannot be null");
         }
-        // Find the least common denominator between the two rational numbers
-        int leastCommonDenominator = lcm(this._denominator, addend.denominator());
 
-        // Calculate the new numerators based on lcd
-        int firstNumerator = this._numerator * leastCommonDenominator / this._denominator;
-        int secondNumerator = addend.numerator() * leastCommonDenominator / addend.denominator();
+        // Don't do math if you don't have to
+        if (this.isZero()) {
+            return new Rational(addend.numerator(), addend.denominator());
+        } else if (addend.isZero()) {
+            return new Rational(this._numerator, this._denominator);
+        }
 
-        return new Rational(firstNumerator + secondNumerator, leastCommonDenominator);
+        // Find the greatest common devisor between the numerators and denominators
+        int numeratorGCD = this.gcd(this._numerator, addend.numerator());
+        int denominatorGCD = this.gcd(this._denominator, addend.denominator());
+
+        // Create firstNumeratorTerm and secondNumeratorTerm for easier readability
+        // These will be added together to form the numerator
+        int firstNumeratorTerm = (this.numerator() / numeratorGCD) * (addend.denominator() / denominatorGCD);
+        int secondNumeratorTerm = (addend.numerator() / numeratorGCD) * (this.denominator() / denominatorGCD);
+
+        int tempNumerator = firstNumeratorTerm + secondNumeratorTerm;
+        int tempDenominator = lcm(this.denominator(), addend.denominator());
+
+        // Simplify numerator and denominator
+        while (gcd(tempNumerator, tempDenominator) != 1) {
+            int divisor = gcd(tempNumerator, tempDenominator);
+            tempNumerator /= divisor;
+            tempDenominator /= divisor;
+        }
+
+        tempNumerator *= numeratorGCD;
+
+        return new Rational(tempNumerator, tempDenominator);
     }
 
     /**
@@ -238,7 +267,7 @@ public class Rational extends Number implements Comparable<Number> {
      */
     public boolean lessThan(Rational comparand) {
         if (comparand == null) {
-            throw new IllegalArgumentException("Rational cannot be null");
+            return false;
         }
         Rational result = this.minus(comparand);
         return result.numerator() < 0;
@@ -252,9 +281,6 @@ public class Rational extends Number implements Comparable<Number> {
      *         value
      */
     public boolean lessThan(Number comparand) {
-        if (comparand == null) {
-            throw new IllegalArgumentException("Rational cannot be null");
-        }
         if (comparand instanceof Rational) {
             return this.lessThan((Rational) comparand);
         } else if (comparand instanceof Integer) {
@@ -289,7 +315,7 @@ public class Rational extends Number implements Comparable<Number> {
      */
     public boolean greaterThan(Rational comparand) {
         if (comparand == null) {
-            throw new IllegalArgumentException("Rational cannot be null");
+            return false;
         }
         Rational result = this.minus(comparand);
         return result.numerator() > 0;
@@ -303,9 +329,6 @@ public class Rational extends Number implements Comparable<Number> {
      *         `Number` value
      */
     public boolean greaterThan(Number comparand) {
-        if (comparand == null) {
-            throw new IllegalArgumentException("Rational cannot be null");
-        }
         if (comparand instanceof Rational) {
             return this.greaterThan((Rational) comparand);
         } else if (comparand instanceof Integer) {
@@ -339,9 +362,6 @@ public class Rational extends Number implements Comparable<Number> {
      *         `Rational` value
      */
     public boolean equals(Object object) {
-        if (object == null) {
-            throw new IllegalArgumentException("Rational cannot be null");
-        }
         if (object instanceof Number) {
             return !(this.lessThan((Number) object) || this.greaterThan((Number) object));
         } else {

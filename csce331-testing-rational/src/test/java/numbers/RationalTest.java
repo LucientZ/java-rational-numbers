@@ -336,6 +336,20 @@ public class RationalTest
     }
 
     /**
+     * Normally with a naiive approach, this would overflow, but with a little bit
+     * of trickery in
+     * Rational::times, it doesn't
+     */
+    public void testTimesNaiiveOverflow() {
+        Rational value1 = new Rational(2147483646, 5);
+        Rational value2 = new Rational(50, 49981); // Note: 2147483646 / 49981 = 42966
+
+        Rational result = value1.times(value2);
+        assertThat("2147483646/5 * 50/49981 = 429660/1", result.numerator(), is(429660));
+        assertThat("2147483646/5 * 50/49981 = 429660/1", result.denominator(), is(1));
+    }
+
+    /**
      * Test dividedBy() function which returns first / second
      * (a / b) / (c / d) = (a / b) * (d / c)
      */
@@ -435,6 +449,19 @@ public class RationalTest
         assertThat("Denominator of result is 20", result.denominator(), is(20));
     }
 
+    public void testPlusZero() {
+        Rational first = new Rational(4, 5);
+        Rational second = new Rational(0);
+
+        Rational result = first.plus(second);
+        assertThat("Numerator of result is 4", result.numerator(), is(4));
+        assertThat("Denominator of result is 5", result.denominator(), is(5));
+        
+        result = second.plus(first);
+        assertThat("Numerator of result is 4", result.numerator(), is(4));
+        assertThat("Denominator of result is 5", result.denominator(), is(5));
+    }
+
     /**
      * Tests basic subtraction with same denominator
      */
@@ -467,6 +494,22 @@ public class RationalTest
         result = second.minus(first);
         assertThat("Numerator of result is -1", result.numerator(), is(-1));
         assertThat("Denominator of result is 14", result.denominator(), is(14));
+    }
+
+    /**
+     * Let's see what happens when we subtract zero or subtract from zero
+     */
+    public void testMinusZero() {
+        Rational first = new Rational(4, 5);
+        Rational second = new Rational(0);
+
+        Rational result = first.minus(second);
+        assertThat("Numerator is 4", result.numerator(), is(4));
+        assertThat("Denominator is 4", result.denominator(), is(5));
+
+        result = second.minus(first);
+        assertThat("Numerator is -4", result.numerator(), is(-4));
+        assertThat("Denominator is 5", result.denominator(), is(5));
     }
 
     /**
@@ -1237,14 +1280,14 @@ public class RationalTest
 
     public void testLessThanNull() {
         Rational value = new Rational(1234);
-        assertThrows(IllegalArgumentException.class, () -> value.lessThan((Rational) null));
-        assertThrows(IllegalArgumentException.class, () -> value.lessThan((Number) null));
+        assertThat("value is not less than null", value.lessThan((Rational) null), is(false));
+        assertThat("value is not less than null", value.lessThan((Number) null), is(false));
     }
 
     public void testGreaterThanNull() {
         Rational value = new Rational(1234);
-        assertThrows(IllegalArgumentException.class, () -> value.greaterThan((Rational) null));
-        assertThrows(IllegalArgumentException.class, () -> value.greaterThan((Number) null));
+        assertThat("value is not greater than null", value.greaterThan((Rational) null), is(false));
+        assertThat("value is not greater than null", value.greaterThan((Number) null), is(false));
     }
 
     public void testCompareToNull() {
@@ -1254,6 +1297,6 @@ public class RationalTest
 
     public void testEqualsNull() {
         Rational value = new Rational(1234);
-        assertThrows(IllegalArgumentException.class, () -> value.equals(null));
+        assertThat("value is not equal to null", value.equals(null), is(false));
     }
 }
