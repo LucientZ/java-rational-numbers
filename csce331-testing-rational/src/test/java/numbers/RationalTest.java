@@ -449,6 +449,24 @@ public class RationalTest
         assertThat("Denominator of result is 20", result.denominator(), is(20));
     }
 
+    /**
+     * With the naiive approach, this would normally overflow
+     */
+    public void testPlusNaiiveOverflow() {
+        Rational first = new Rational(1073741823, 2);
+        Rational second = new Rational(1073741825, 2);
+
+        Rational result = first.plus(second);
+        System.out.println(result.numerator());
+        System.out.println(result.denominator());
+        assertThat("Numerator of result is 536870912", result.numerator(), is(1073741824));
+        assertThat("Denominator of result is 1", result.denominator(), is(1));
+
+        result = second.plus(first);
+        assertThat("Numerator of result is 536870912", result.numerator(), is(1073741824));
+        assertThat("Denominator of result is 1", result.denominator(), is(1));
+    }
+
     public void testPlusZero() {
         Rational first = new Rational(4, 5);
         Rational second = new Rational(0);
@@ -456,7 +474,7 @@ public class RationalTest
         Rational result = first.plus(second);
         assertThat("Numerator of result is 4", result.numerator(), is(4));
         assertThat("Denominator of result is 5", result.denominator(), is(5));
-        
+
         result = second.plus(first);
         assertThat("Numerator of result is 4", result.numerator(), is(4));
         assertThat("Denominator of result is 5", result.denominator(), is(5));

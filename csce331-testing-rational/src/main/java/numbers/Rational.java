@@ -161,22 +161,22 @@ public class Rational extends Number implements Comparable<Number> {
 
         // Create firstNumeratorTerm and secondNumeratorTerm for easier readability
         // These will be added together to form the numerator
-        int firstNumeratorTerm = (this.numerator() / numeratorGCD) * (addend.denominator() / denominatorGCD);
-        int secondNumeratorTerm = (addend.numerator() / numeratorGCD) * (this.denominator() / denominatorGCD);
+        long firstNumeratorTerm = (this.numerator() / numeratorGCD) * (addend.denominator() / denominatorGCD);
+        long secondNumeratorTerm = (addend.numerator() / numeratorGCD) * (this.denominator() / denominatorGCD);
 
-        int tempNumerator = firstNumeratorTerm + secondNumeratorTerm;
-        int tempDenominator = lcm(this.denominator(), addend.denominator());
+        long tempNumerator = firstNumeratorTerm + secondNumeratorTerm;
+        long tempDenominator = lcm(this.denominator(), addend.denominator());
 
         // Simplify numerator and denominator
         while (gcd(tempNumerator, tempDenominator) != 1) {
-            int divisor = gcd(tempNumerator, tempDenominator);
+            long divisor = gcd(tempNumerator, tempDenominator);
             tempNumerator /= divisor;
             tempDenominator /= divisor;
         }
 
         tempNumerator *= numeratorGCD;
 
-        return new Rational(tempNumerator, tempDenominator);
+        return new Rational((int) tempNumerator, (int) tempDenominator);
     }
 
     /**
@@ -420,6 +420,21 @@ public class Rational extends Number implements Comparable<Number> {
      * @return greatest common divisor between two numbers
      */
     private int gcd(int a, int b) {
+        if (b == 0) {
+            return a;
+        }
+        return gcd(b, a % b);
+    }
+
+    /**
+     * Helper method which implements the euclidean algorithm for computing gcd.
+     * This is most useful when simplifying a fraction
+     * 
+     * @param a First long to be compared
+     * @param b Second long to be compared
+     * @return greatest common divisor between two numbers
+     */
+    private long gcd(long a, long b) {
         if (b == 0) {
             return a;
         }
