@@ -457,8 +457,6 @@ public class RationalTest
         Rational second = new Rational(1073741825, 2);
 
         Rational result = first.plus(second);
-        System.out.println(result.numerator());
-        System.out.println(result.denominator());
         assertThat("Numerator of result is 536870912", result.numerator(), is(1073741824));
         assertThat("Denominator of result is 1", result.denominator(), is(1));
 
