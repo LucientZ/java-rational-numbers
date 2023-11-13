@@ -145,7 +145,7 @@ public class Rational extends Number implements Comparable<Number> {
      * @return `Rational` result of subtracting subtrahend to this object
      */
     public Rational minus(Rational subtrahend) {
-        Rational negativeSubtrahend = new Rational(subtrahend.numerator() * -1, subtrahend.denominator());
+        Rational negativeSubtrahend = subtrahend.opposite();
         return this.plus(negativeSubtrahend);
     }
 
