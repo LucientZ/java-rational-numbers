@@ -36,16 +36,16 @@ greaterThan(Number): boolean
 equals(Object): boolean
 
 // Pretty printing method :D
-toString(): String
+toString(): String // Check if this is the correct way to represent the object
 
 // Helper methods
-simplify(): void // good
-gcd(int, int): int
-lcm(int, int): int
+simplify(): void // figure out denominator with Integer.MIN_VALUE 
+gcd(int, int): int // good
+lcm(int, int): int // good
 
 // Integer
-intValue(): int
-longValue(): int
-floatValue(): int
-doubleValue(): int
+intValue(): int // good
+longValue(): int // good
+floatValue(): int // good
+doubleValue(): int // good
 ```

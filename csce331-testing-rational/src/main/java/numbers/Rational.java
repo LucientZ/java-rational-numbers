@@ -291,9 +291,9 @@ public class Rational extends Number implements Comparable<Number> {
                 return this.longValue() < comparand.longValue();
             }
         } else if (comparand instanceof Float) {
-            return this.floatValue() < comparand.floatValue();
+            return Float.compare(this.floatValue(), comparand.floatValue()) < 0;
         } else if (comparand instanceof Double) {
-            return this.doubleValue() < comparand.doubleValue();
+            return Double.compare(this.doubleValue(), comparand.doubleValue()) < 0;
         } else {
             return false;
         }
@@ -334,9 +334,9 @@ public class Rational extends Number implements Comparable<Number> {
                 return this.longValue() > comparand.longValue();
             }
         } else if (comparand instanceof Float) {
-            return this.floatValue() > comparand.floatValue();
+            return Float.compare(this.floatValue(), comparand.floatValue()) > 0;
         } else if (comparand instanceof Double) {
-            return this.doubleValue() > comparand.doubleValue();
+            return Double.compare(this.doubleValue(), comparand.doubleValue()) > 0;
         } else {
             return false;
         }
@@ -392,19 +392,19 @@ public class Rational extends Number implements Comparable<Number> {
      */
     private void simplify() {
         // Flips both signs if we have -a / -b or a / -b
-        if (this._denominator < 0) {
-            this._numerator *= -1;
-            this._denominator *= -1;
-        }
 
-        // Uses the absolute value of numerator for calculations
+        // Uses the absolute value of numerator and denominator for calculations
         int tempNumerator = this._numerator < 0 ? this._numerator * -1 : this._numerator;
-        int tempDenominator = this._denominator;
+        int tempDenominator = this._denominator < 0 ? this._denominator * -1 : this._denominator;
 
         // Divides numerator and denominator by greatest common divisor to simplify
         int divisor = gcd(tempNumerator, tempDenominator);
         tempNumerator /= divisor;
         tempDenominator /= divisor;
+
+        if (this._denominator < 0) {
+            tempNumerator *= -1;
+        }
 
         this._numerator = this._numerator < 0 ? tempNumerator *= -1 : tempNumerator;
         this._denominator = tempDenominator;

@@ -79,13 +79,13 @@ public class RationalTest
         assertThat("Rational simplifies with constructor: 48 / -72 = -2 / 3", value.denominator(), is(3));
     }
 
-    public void testTwoArgumentConstructorZeroSimplification(){
+    public void testTwoArgumentConstructorZeroSimplification() {
         Rational value1 = new Rational(0, Integer.MAX_VALUE);
         Rational value2 = new Rational(0, Integer.MIN_VALUE);
 
         assertThat("Numerator of value1 is 0", value1.numerator(), is(0));
         assertThat("Numerator of value2 is 0", value2.numerator(), is(0));
-        
+
         assertThat("Denominator of value1 is 1", value1.denominator(), is(1));
         assertThat("Denominator of value2 is 1", value2.denominator(), is(1));
     }
@@ -1576,5 +1576,12 @@ public class RationalTest
         assertThat("Hashcode comes from string of numerator and denominator", value.hashCode(), is("1/2".hashCode()));
         value = new Rational(2, 1);
         assertThat("Hashcode comes from string of numerator and denominator", value.hashCode(), is("2".hashCode()));
+    }
+
+    public void testComparisonCloseValues() {
+        Rational value = new Rational(1);
+
+        assertThat("0.99999999999998 < 1", value.lessThan(0.99999999999999998F), is(false));
+        assertThat("0.99999999999998 < 1", value.greaterThan(0.99999999999999998F), is(true));
     }
 }
