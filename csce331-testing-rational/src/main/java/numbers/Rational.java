@@ -7,6 +7,7 @@ package numbers;
 public class Rational extends Number implements Comparable<Number> {
     private int _numerator = 0;
     private int _denominator = 1;
+    private final static double FLOAT_PRECISION = 0.0001;
 
     /**
      * Default constructor. Creates a new `Rational` with a value 0 / 1
@@ -291,8 +292,14 @@ public class Rational extends Number implements Comparable<Number> {
                 return this.longValue() < comparand.longValue();
             }
         } else if (comparand instanceof Float) {
+            if (Math.abs(this.floatValue() - comparand.floatValue()) < Rational.FLOAT_PRECISION) {
+                return false;
+            }
             return Float.compare(this.floatValue(), comparand.floatValue()) < 0;
         } else if (comparand instanceof Double) {
+            if (Math.abs(this.doubleValue() - comparand.doubleValue()) < Rational.FLOAT_PRECISION) {
+                return false;
+            }
             return Double.compare(this.doubleValue(), comparand.doubleValue()) < 0;
         } else {
             return false;
@@ -334,8 +341,14 @@ public class Rational extends Number implements Comparable<Number> {
                 return this.longValue() > comparand.longValue();
             }
         } else if (comparand instanceof Float) {
+            if (Math.abs(this.floatValue() - comparand.floatValue()) < Rational.FLOAT_PRECISION) {
+                return false;
+            }
             return Float.compare(this.floatValue(), comparand.floatValue()) > 0;
         } else if (comparand instanceof Double) {
+            if (Math.abs(this.doubleValue() - comparand.doubleValue()) < Rational.FLOAT_PRECISION) {
+                return false;
+            }
             return Double.compare(this.doubleValue(), comparand.doubleValue()) > 0;
         } else {
             return false;

@@ -1581,7 +1581,9 @@ public class RationalTest
     public void testComparisonCloseValues() {
         Rational value = new Rational(1);
 
-        assertThat("0.99999999999998 < 1", value.lessThan(0.99999999999999998F), is(false));
-        assertThat("0.99999999999998 < 1", value.greaterThan(0.99999999999999998F), is(true));
+        assertThat("0.99999999999998 == 1", value.compareTo(0.99999999999998F), is(0));
+        assertThat("0.99999999999998 == 1", value.compareTo(0.99999999999998D), is(0));
+        assertThat("1.00000000000009 == 1", value.compareTo(1.00000000000009F), is(0));
+        assertThat("1.00000000000009 == 1", value.compareTo(1.00000000000009D), is(0));
     }
 }
