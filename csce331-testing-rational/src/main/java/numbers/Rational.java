@@ -283,8 +283,7 @@ public class Rational extends Number implements Comparable<Number> {
     public boolean lessThan(Number comparand) {
         if (comparand instanceof Rational) {
             return this.lessThan((Rational) comparand);
-        } else if (comparand instanceof Long || comparand instanceof Integer || comparand instanceof Short
-                || comparand instanceof Byte) {
+        } else if (comparand instanceof Long || comparand instanceof Integer) {
             // When longValues are equal, need to check decimal with 0
             if (this.longValue() == comparand.longValue()) {
                 return (this.doubleValue() - comparand.doubleValue()) < 0;
@@ -333,8 +332,7 @@ public class Rational extends Number implements Comparable<Number> {
     public boolean greaterThan(Number comparand) {
         if (comparand instanceof Rational) {
             return this.greaterThan((Rational) comparand);
-        } else if (comparand instanceof Long || comparand instanceof Integer || comparand instanceof Byte
-                || comparand instanceof Short) {
+        } else if (comparand instanceof Long || comparand instanceof Integer) {
             if (this.longValue() == comparand.longValue()) {
                 return (this.doubleValue() - comparand.doubleValue()) > 0;
             } else {
@@ -501,15 +499,5 @@ public class Rational extends Number implements Comparable<Number> {
     @Override
     public double doubleValue() {
         return (double) this._numerator / (double) this._denominator;
-    }
-
-    @Override
-    public byte byteValue() {
-        return (byte) (this._numerator / this._denominator);
-    }
-
-    @Override
-    public short shortValue() {
-        return (short) (this._numerator / this._denominator);
     }
 }
