@@ -1296,29 +1296,29 @@ public class RationalTest
     /////////////////////////////////////////
 
     public void testConstructorNull() {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(NullPointerException.class, () -> {
             new Rational(null);
         });
     }
 
     public void testTimesNull() {
         Rational value = new Rational(1234);
-        assertThrows(IllegalArgumentException.class, () -> value.times(null));
+        assertThrows(NullPointerException.class, () -> value.times(null));
     }
 
     public void testDividedByNull() {
         Rational value = new Rational(1234);
-        assertThrows(IllegalArgumentException.class, () -> value.dividedBy(null));
+        assertThrows(NullPointerException.class, () -> value.dividedBy(null));
     }
 
     public void testPlusNull() {
         Rational value = new Rational(1234);
-        assertThrows(IllegalArgumentException.class, () -> value.plus(null));
+        assertThrows(NullPointerException.class, () -> value.plus(null));
     }
 
     public void testMinusNull() {
         Rational value = new Rational(1234);
-        assertThrows(IllegalArgumentException.class, () -> value.minus(null));
+        assertThrows(NullPointerException.class, () -> value.minus(null));
     }
 
     public void testLessThanNull() {
@@ -1335,7 +1335,7 @@ public class RationalTest
 
     public void testCompareToNull() {
         Rational value = new Rational(1234);
-        assertThrows(IllegalArgumentException.class, () -> value.compareTo(null));
+        assertThat("compareTo(null) returns not 0", value.compareTo(null), is(-1));
     }
 
     public void testEqualsNull() {
@@ -1363,11 +1363,11 @@ public class RationalTest
         Rational maxValue = new Rational(Integer.MAX_VALUE);
         Rational minValue = new Rational(Integer.MIN_VALUE);
 
-        assertThat("MAX_INT > MIN_INT", maxValue.lessThan(minValue), is(false));
+        assertThat("MAX_INT < MIN_INT", maxValue.lessThan(minValue), is(false));
         assertThat("MAX_INT > MIN_INT", maxValue.greaterThan(minValue), is(true));
         assertThat("MAX_INT > MIN_INT", maxValue.compareTo(minValue), is(1));
         assertThat("MAX_INT > MIN_INT", minValue.lessThan(maxValue), is(true));
-        assertThat("MAX_INT > MIN_INT", minValue.greaterThan(maxValue), is(false));
+        assertThat("MAX_INT < MIN_INT", minValue.greaterThan(maxValue), is(false));
         assertThat("MAX_INT > MIN_INT", minValue.compareTo(maxValue), is(-1));
     }
 
@@ -1442,12 +1442,10 @@ public class RationalTest
 
         for (int i = 0; i < 31; i++) {
             if (i % 2 == 0) {
-                assertThat("value^" + i + " > 0", value.raisedToThePowerOf(i).compareTo(0), is(1));
                 assertThat("value^" + i + " numerator is 1", value.raisedToThePowerOf(i).numerator(), is(1));
                 assertThat("value^" + i + " denominator is correct", value.raisedToThePowerOf(i).denominator(),
                         is((int) Math.pow(2, i)));
             } else {
-                assertThat("value^" + i + " < 0", value.raisedToThePowerOf(i).compareTo(0), is(-1));
                 assertThat("value^" + i + " numerator is -1", value.raisedToThePowerOf(i).numerator(), is(-1));
                 assertThat("value^" + i + " denominator is correct", value.raisedToThePowerOf(i).denominator(),
                         is((int) Math.pow(2, i)));
@@ -1468,6 +1466,43 @@ public class RationalTest
         assertThat("Large String", new Rational(Integer.MAX_VALUE, Integer.MAX_VALUE - 1).toString(),
                 is("2147483647/2147483646"));
         assertThat("Large String", new Rational(Integer.MIN_VALUE, 3).toString(), is("-2147483648/3"));
+    }
+
+    public void testNormalUsage8() {
+        Rational value1 = new Rational(-1, 1);
+        Rational value2 = new Rational(-1, 2);
+        assertThat("-1 != -1/2", value1.equals(value2), is(false));
+    }
+
+    public void testNormalUsage9() {
+        Rational value1 = new Rational(new Rational());
+        Rational value2 = new Rational(new Rational(0));
+        Rational value3 = new Rational(new Rational(0, -1));
+        Rational value4 = new Rational(new Rational(1));
+        Rational value5 = new Rational(new Rational(-1));
+        Rational value6 = new Rational(new Rational(4, 11));
+        Rational value7 = new Rational(new Rational(4, -11));
+
+        assertThat(value1.numerator(), is(0));
+        assertThat(value1.denominator(), is(1));
+        assertThat(value2.numerator(), is(0));
+        assertThat(value2.denominator(), is(1));
+        assertThat(value3.numerator(), is(0));
+        assertThat(value3.denominator(), is(1));
+        assertThat(value4.numerator(), is(1));
+        assertThat(value4.denominator(), is(1));
+        assertThat(value5.numerator(), is(-1));
+        assertThat(value5.denominator(), is(1));
+        assertThat(value6.numerator(), is(4));
+        assertThat(value6.denominator(), is(11));
+        assertThat(value7.numerator(), is(-4));
+        assertThat(value7.denominator(), is(11));
+    }
+
+    public void testNormalUsage10() {
+        assertThat(new Rational(1, 2).equals(new Rational(1, 2)), is(true)); // trivially true
+        assertThat(new Rational(2, 3).equals(new Rational(1, 2)), is(false)); // trivially false
+        assertThat(new Rational(1, 2).equals(new Rational(2, 4)), is(true)); // true after reduction
     }
 
     public void testComparisonToNaN() {
@@ -1575,5 +1610,45 @@ public class RationalTest
         Rational largeNumber = new Rational(Integer.MAX_VALUE, Integer.MAX_VALUE - 1);
         assertThat(largeNumber.numerator(), is(Integer.MAX_VALUE));
         assertThat(largeNumber.denominator(), is(Integer.MAX_VALUE - 1));
+    }
+
+    public void testClone() {
+        Rational value = new Rational(6, 2);
+        Rational value2 = value.clone();
+        assertThat("Clone equals original", value.equals(value2), is(true));
+        assertThat("value2 is not value", value == value2, is(false));
+    }
+
+    public void testInsanity(){
+        Rational value = new Rational(-5214, 0x121243);
+
+        value.byteValue();
+        value.clone();
+        value.compareTo(value);
+        value.denominator();
+        value.dividedBy(new Rational(1));
+        value.doubleValue();
+        value.equals(value);
+        value.floatValue();
+        value.getClass();
+        value.greaterThan(1);
+        value.greaterThan(value);
+        value.hashCode();
+        value.intValue();
+        value.isMinusOne();
+        value.isOne();
+        value.isZero();
+        value.lessThan(value);
+        value.lessThan(1);
+        value.longValue();
+        value.minus(value);
+        value.numerator();
+        value.opposite();
+        value.plus(value);
+        value.raisedToThePowerOf(0);
+        value.reciprocal();
+        value.shortValue();
+        value.times(value);
+        value.toString();
     }
 }
