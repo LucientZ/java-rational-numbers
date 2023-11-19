@@ -4,6 +4,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThrows;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -1411,20 +1414,127 @@ public class RationalTest
 
     public void testNormalUsage3() {
         Rational value1 = new Rational(1, 10);
+        Rational value2 = new Rational(-1, 10);
 
         assertThat("value1 - value1 = 0", value1.plus(value1.opposite()).compareTo(0), is(0));
-        assertThat("value1 - value1 = 0", value1.minus(value1.opposite()).compareTo((double) 2 / 10), is(0));
+        assertThat("value1 - (-value1) = 2/10", value1.minus(value1.opposite()).compareTo((double) 2 / 10), is(0));
         assertThat("value1*value1^-1 = 1", value1.times(value1.raisedToThePowerOf(-1)).compareTo(1), is(0));
-        assertThat("value1*value1^-1 = 1", value1.times(value1.reciprocal()).compareTo(1), is(0));
+        assertThat("value1*value1^-1 = 1", value1.times(value1.reciprocal()).isOne(), is(true));
         assertThat("value1*value1^-2 != 1", value1.times(value1.raisedToThePowerOf(-2)).equals(1), is(false));
+
+        assertThat("value2 - value2 = 0", value2.plus(value2.opposite()).compareTo(0), is(0));
+        assertThat("value2 - (-value2) = 0", value2.minus(value2.opposite()).compareTo((double) -2 / 10), is(0));
+        assertThat("value2*value2^-1 = 1", value2.times(value2.raisedToThePowerOf(-1)).compareTo(1), is(0));
+        assertThat("value2*value2^-1 = 1", value2.times(value2.reciprocal()).isOne(), is(true));
+        assertThat("value2*value2^-2 != 1", value2.times(value2.raisedToThePowerOf(-2)).equals(1), is(false));
+    }
+
+    public void testNormalUsage4() {
+        assertThat("0 * number = 0", (new Rational(0, 1)).dividedBy(new Rational(4325341, 1)).equals(0), is(true));
+        assertThat("", (new Rational(1)).dividedBy(new Rational(1, 3).reciprocal()).equals(3000001F / 9000000F),
+                is(true));
+        assertThat("Subtracting zero doesn't change the number",
+                (new Rational(21523, 2314)).minus(new Rational()).equals(new Rational(21523, 2314)), is(true));
+    }
+
+    public void testNormalUsage5() {
+        Rational value = new Rational(2, -4);
+
+        for (int i = 0; i < 31; i++) {
+            if (i % 2 == 0) {
+                assertThat("value^" + i + " > 0", value.raisedToThePowerOf(i).compareTo(0), is(1));
+                assertThat("value^" + i + " numerator is 1", value.raisedToThePowerOf(i).numerator(), is(1));
+                assertThat("value^" + i + " denominator is correct", value.raisedToThePowerOf(i).denominator(),
+                        is((int) Math.pow(2, i)));
+            } else {
+                assertThat("value^" + i + " < 0", value.raisedToThePowerOf(i).compareTo(0), is(-1));
+                assertThat("value^" + i + " numerator is -1", value.raisedToThePowerOf(i).numerator(), is(-1));
+                assertThat("value^" + i + " denominator is correct", value.raisedToThePowerOf(i).denominator(),
+                        is((int) Math.pow(2, i)));
+            }
+        }
+    }
+
+    public void testNormalUsage6() {
+        Rational value = new Rational(0, 124);
+
+        assertThat("value^0 = 1", value.raisedToThePowerOf(0).compareTo(1), is(0));
+        for (int i = 1; i < 100; i++) {
+            assertThat("value^" + i + " = 0", value.raisedToThePowerOf(i).compareTo(0), is(0));
+        }
     }
 
     public void testComparisonToNaN() {
         Rational value = new Rational(1, 2);
 
-        assertThat("1/2 isn't equal to NaN", value.equals(Double.NaN), is(false));
-        assertThat("1/2 isn't less than NaN", value.lessThan(Double.NaN), is(false));
-        assertThat("1/2 isn't greater than NaN", value.greaterThan(Double.NaN), is(false));
+        assertThat("1/2 isn't equal to Double.NaN", value.equals(Double.NaN), is(false));
+        assertThat("1/2 isn't less than Double.NaN", value.lessThan(Double.NaN), is(false));
+        assertThat("1/2 isn't greater than Double.NaN", value.greaterThan(Double.NaN), is(false));
+        assertThat("compareTo(Double.NaN) = -1", value.compareTo(Double.NaN), is(-1));
 
+        assertThat("1/2 isn't equal to Float.NaN", value.equals(Float.NaN), is(false));
+        assertThat("1/2 isn't less than Float.NaN", value.lessThan(Float.NaN), is(false));
+        assertThat("1/2 isn't greater than Float.NaN", value.greaterThan(Float.NaN), is(false));
+        assertThat("compareTo(Double.NaN) = -1", value.compareTo(Float.NaN), is(-1));
+    }
+
+    public void testComparisonInfinity() {
+        Rational value1 = new Rational(Integer.MAX_VALUE);
+        Rational value2 = new Rational(Integer.MIN_VALUE);
+        Rational value3 = new Rational(1, Integer.MIN_VALUE);
+        Rational value4 = new Rational(1, Integer.MIN_VALUE);
+
+        assertThat("finite int < (float) infinity", value1.compareTo(Float.POSITIVE_INFINITY), is(-1));
+        assertThat("finite int > (float) -infinity", value1.compareTo(Float.NEGATIVE_INFINITY), is(1));
+        assertThat("finite int < (double) infinity", value1.compareTo(Double.POSITIVE_INFINITY), is(-1));
+        assertThat("finite int < (double) infinity", value1.compareTo(Double.NEGATIVE_INFINITY), is(1));
+
+        assertThat("finite int < (float) infinity", value2.compareTo(Float.POSITIVE_INFINITY), is(-1));
+        assertThat("finite int > (float) -infinity", value2.compareTo(Float.NEGATIVE_INFINITY), is(1));
+        assertThat("finite int < (double) infinity", value2.compareTo(Double.POSITIVE_INFINITY), is(-1));
+        assertThat("finite int < (double) infinity", value2.compareTo(Double.NEGATIVE_INFINITY), is(1));
+
+        assertThat("finite int < (float) infinity", value3.compareTo(Float.POSITIVE_INFINITY), is(-1));
+        assertThat("finite int > (float) -infinity", value3.compareTo(Float.NEGATIVE_INFINITY), is(1));
+        assertThat("finite int < (double) infinity", value3.compareTo(Double.POSITIVE_INFINITY), is(-1));
+        assertThat("finite int < (double) infinity", value3.compareTo(Double.NEGATIVE_INFINITY), is(1));
+
+        assertThat("finite int < (float) infinity", value4.compareTo(Float.POSITIVE_INFINITY), is(-1));
+        assertThat("finite int > (float) -infinity", value4.compareTo(Float.NEGATIVE_INFINITY), is(1));
+        assertThat("finite int < (double) infinity", value4.compareTo(Double.POSITIVE_INFINITY), is(-1));
+        assertThat("finite int < (double) infinity", value4.compareTo(Double.NEGATIVE_INFINITY), is(1));
+    }
+
+    public void testArrayList() {
+        ArrayList<Rational> list = new ArrayList<Rational>();
+
+        Rational value1 = new Rational(-500, 1);
+        Rational value2 = new Rational(-1, 52);
+        Rational value3 = new Rational(1, 5);
+        Rational value4 = new Rational(5, 5);
+
+        list.add(value3);
+        list.add(value2);
+        list.add(value1);
+        list.add(value4);
+
+        Collections.sort(list);
+
+        assertThat("value 1 is first", list.get(0), is(value1));
+        assertThat("value 2 is second", list.get(1), is(value2));
+        assertThat("value 3 is third", list.get(2), is(value3));
+        assertThat("value 4 is fourth", list.get(3), is(value4));
+    }
+
+    public void testComparisonWithZeroSelf() {
+        Rational value = new Rational(0);
+        assertThat(value.equals(value), is(true));
+        assertThat(value.compareTo(value), is(0));
+    }
+
+    public void testLargeNumbers() {
+        Rational largeNumber = new Rational(Integer.MAX_VALUE, Integer.MAX_VALUE - 1);
+        assertThat(largeNumber.numerator(), is(Integer.MAX_VALUE));
+        assertThat(largeNumber.denominator(), is(Integer.MAX_VALUE - 1));
     }
 }
