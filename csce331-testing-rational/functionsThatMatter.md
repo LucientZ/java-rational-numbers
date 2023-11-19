@@ -39,7 +39,7 @@ equals(Object): boolean
 toString(): String // Check if this is the correct way to represent the object
 
 // Helper methods
-simplify(): void // figure out denominator with Integer.MIN_VALUE 
+simplify(): void // good
 gcd(int, int): int // good
 lcm(int, int): int // good
 

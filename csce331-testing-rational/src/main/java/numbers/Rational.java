@@ -132,7 +132,7 @@ public class Rational extends Number implements Comparable<Number> {
         if (divisor == null) {
             throw new IllegalArgumentException("Rational cannot be null");
         }
-        if (divisor.numerator() == 0) {
+        if (divisor.isZero()) {
             throw new IllegalArgumentException("Divisor must not have a numerator of 0");
         }
         return this.times(divisor.reciprocal());
@@ -147,13 +147,6 @@ public class Rational extends Number implements Comparable<Number> {
     public Rational plus(Rational addend) {
         if (addend == null) {
             throw new IllegalArgumentException("Rational cannot be null");
-        }
-
-        // Don't do math if you don't have to
-        if (this.isZero()) {
-            return new Rational(addend.numerator(), addend.denominator());
-        } else if (addend.isZero()) {
-            return new Rational(this._numerator, this._denominator);
         }
 
         // Find the greatest common devisor between the numerators and denominators
@@ -291,12 +284,14 @@ public class Rational extends Number implements Comparable<Number> {
                 return this.longValue() < comparand.longValue();
             }
         } else if (comparand instanceof Float) {
-            if (Math.abs(this.floatValue() - comparand.floatValue()) < Rational.FLOAT_PRECISION) {
+            if (Math.abs(this.floatValue() - comparand.floatValue()) < Rational.FLOAT_PRECISION
+                    || Float.isNaN((Float) comparand)) {
                 return false;
             }
             return Float.compare(this.floatValue(), comparand.floatValue()) < 0;
         } else if (comparand instanceof Double) {
-            if (Math.abs(this.doubleValue() - comparand.doubleValue()) < Rational.FLOAT_PRECISION) {
+            if (Math.abs(this.doubleValue() - comparand.doubleValue()) < Rational.FLOAT_PRECISION
+                    || Double.isNaN((Double) comparand)) {
                 return false;
             }
             return Double.compare(this.doubleValue(), comparand.doubleValue()) < 0;
@@ -339,12 +334,14 @@ public class Rational extends Number implements Comparable<Number> {
                 return this.longValue() > comparand.longValue();
             }
         } else if (comparand instanceof Float) {
-            if (Math.abs(this.floatValue() - comparand.floatValue()) < Rational.FLOAT_PRECISION) {
+            if (Math.abs(this.floatValue() - comparand.floatValue()) < Rational.FLOAT_PRECISION
+                    || Float.isNaN((Float) comparand)) {
                 return false;
             }
             return Float.compare(this.floatValue(), comparand.floatValue()) > 0;
         } else if (comparand instanceof Double) {
-            if (Math.abs(this.doubleValue() - comparand.doubleValue()) < Rational.FLOAT_PRECISION) {
+            if (Math.abs(this.doubleValue() - comparand.doubleValue()) < Rational.FLOAT_PRECISION
+                    || Double.isNaN((Double) comparand)) {
                 return false;
             }
             return Double.compare(this.doubleValue(), comparand.doubleValue()) > 0;
@@ -365,6 +362,10 @@ public class Rational extends Number implements Comparable<Number> {
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Number)) {
+            return false;
+        } else if (object instanceof Float && Float.isNaN((Float) object)) {
+            return false;
+        } else if (object instanceof Double && Double.isNaN((Double) object)) {
             return false;
         } else {
             return this.compareTo((Number) object) == 0;
@@ -389,11 +390,10 @@ public class Rational extends Number implements Comparable<Number> {
      * @return String representation of `Rational` object
      */
     public String toString() {
-        this.simplify();
         if (this._denominator == 1) {
-            return String.format("%d", this._numerator);
+            return this._numerator + "";
         } else {
-            return String.format("%d/%d", this._numerator, this._denominator);
+            return this._numerator + "/" + this._denominator;
         }
     }
 
@@ -402,23 +402,16 @@ public class Rational extends Number implements Comparable<Number> {
      * is in numerator and both numbers are divided by their gcd
      */
     private void simplify() {
-        // Flips both signs if we have -a / -b or a / -b
-
-        // Uses the absolute value of numerator and denominator for calculations
-        int tempNumerator = this._numerator < 0 ? this._numerator * -1 : this._numerator;
-        int tempDenominator = this._denominator < 0 ? this._denominator * -1 : this._denominator;
-
         // Divides numerator and denominator by greatest common divisor to simplify
-        int divisor = gcd(tempNumerator, tempDenominator);
-        tempNumerator /= divisor;
-        tempDenominator /= divisor;
+        int divisor = gcd(this._numerator, this._denominator);
+        this._numerator /= divisor;
+        this._denominator /= divisor;
 
+        // Flips both signs if we have -a / -b or a / -b
         if (this._denominator < 0) {
-            tempNumerator *= -1;
+            this._numerator *= -1;
+            this._denominator *= -1;
         }
-
-        this._numerator = this._numerator < 0 ? tempNumerator *= -1 : tempNumerator;
-        this._denominator = tempDenominator;
     }
 
     /**
@@ -430,8 +423,8 @@ public class Rational extends Number implements Comparable<Number> {
      * @return greatest common divisor between two numbers
      */
     private int gcd(int a, int b) {
-        a = a < 0 ? a * -1 : a; // Takes absolute value of a
-        b = b < 0 ? b * -1 : b; // Takes absolute value of b
+        a = Math.abs(a);
+        b = Math.abs(b);
         if (b == 0) {
             return a;
         }
@@ -447,8 +440,8 @@ public class Rational extends Number implements Comparable<Number> {
      * @return greatest common divisor between two numbers
      */
     private long gcd(long a, long b) {
-        a = a < 0 ? a * -1 : a; // Takes absolute value of a
-        b = b < 0 ? b * -1 : b; // Takes absolute value of b
+        a = Math.abs(a);
+        b = Math.abs(b);
         if (b == 0) {
             return a;
         }

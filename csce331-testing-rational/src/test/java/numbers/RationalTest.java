@@ -274,6 +274,12 @@ public class RationalTest
         result = second.times(first);
         assertThat("2 * 5 = 10", result.numerator(), is(10));
         assertThat("3 * 7 = 21", result.denominator(), is(21));
+
+        // Test unchanged values
+        assertThat("first numerator is 2", first.numerator(), is(2));
+        assertThat("first denominator is 3", first.denominator(), is(3));
+        assertThat("second numerator is 5", second.numerator(), is(5));
+        assertThat("second denominator is 7", second.denominator(), is(7));
     }
 
     public void testTimesNegativeNumeratorFirst() {
@@ -1376,5 +1382,49 @@ public class RationalTest
         assertThat("0.99999999999998 == 1", value.compareTo(0.99999999999998D), is(0));
         assertThat("1.00000000000009 == 1", value.compareTo(1.00000000000009F), is(0));
         assertThat("1.00000000000009 == 1", value.compareTo(1.00000000000009D), is(0));
+    }
+
+    public void testNormalUsage1() {
+        Rational value1 = new Rational(1, 10);
+        Rational value2 = new Rational(2, 10);
+
+        Rational result = value1.plus(value2);
+
+        float resultFloat = 0.1F + 0.2F;
+        double resultDouble = 0.1 + 0.2;
+
+        assertThat("1/10 + 2/10 == 0.1+0.2", result.equals(resultFloat));
+        assertThat("1/10 + 2/10 == 0.1+0.2", result.equals(0.30000000000000004));
+        assertThat("1/10 + 2/10 == 0.1+0.2", result.equals(resultDouble));
+        assertThat("Rational != ", !result.equals(0.1 + 0.203));
+
+    }
+
+    public void testNormalUsage2() {
+        Rational value1 = new Rational(1, 10);
+
+        Rational result = value1.minus(new Rational(3, 10));
+        assertThat("1/10 - 3/10 = -0.19999999999999998", result.compareTo(-0.19999999999999998), is(0));
+        assertThat("1/10 - 3/10 = -0.19999999999999998", result.lessThan(-0.19999999999999998F), is(false));
+        assertThat("1/10 - 3/10 = -0.19999999999999998", result.greaterThan(-0.19999999999999998F), is(false));
+    }
+
+    public void testNormalUsage3() {
+        Rational value1 = new Rational(1, 10);
+
+        assertThat("value1 - value1 = 0", value1.plus(value1.opposite()).compareTo(0), is(0));
+        assertThat("value1 - value1 = 0", value1.minus(value1.opposite()).compareTo((double) 2 / 10), is(0));
+        assertThat("value1*value1^-1 = 1", value1.times(value1.raisedToThePowerOf(-1)).compareTo(1), is(0));
+        assertThat("value1*value1^-1 = 1", value1.times(value1.reciprocal()).compareTo(1), is(0));
+        assertThat("value1*value1^-2 != 1", value1.times(value1.raisedToThePowerOf(-2)).equals(1), is(false));
+    }
+
+    public void testComparisonToNaN() {
+        Rational value = new Rational(1, 2);
+
+        assertThat("1/2 isn't equal to NaN", value.equals(Double.NaN), is(false));
+        assertThat("1/2 isn't less than NaN", value.lessThan(Double.NaN), is(false));
+        assertThat("1/2 isn't greater than NaN", value.greaterThan(Double.NaN), is(false));
+
     }
 }
