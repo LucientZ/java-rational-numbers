@@ -34,7 +34,7 @@ public class Rational extends Number implements Comparable<Number> {
      * @param denominator Denominator of `Rational`
      * @throws IllegalArgumentException when denominator is set to 0
      */
-    public Rational(int numerator, int denominator) {
+    public Rational(int numerator, int denominator) throws IllegalArgumentException {
         super();
         if (denominator == 0) {
             throw new IllegalArgumentException("Denominator must not be 0");
@@ -95,7 +95,7 @@ public class Rational extends Number implements Comparable<Number> {
      * @return
      * @throws IllegalArgumentException when numerator is 0
      */
-    public Rational reciprocal() {
+    public Rational reciprocal() throws IllegalArgumentException {
         if (this._numerator == 0) {
             throw new IllegalArgumentException("Numerator of current object is 0. This will result in a divide by 0");
         }
@@ -135,7 +135,7 @@ public class Rational extends Number implements Comparable<Number> {
      * @return `Rational` result of division
      * @throws IllegalArgumentException when divisor is equivalent to 0
      */
-    public Rational dividedBy(Rational divisor) {
+    public Rational dividedBy(Rational divisor) throws IllegalArgumentException {
         if (divisor == null) {
             throw new IllegalArgumentException("Rational cannot be null");
         }
@@ -198,7 +198,7 @@ public class Rational extends Number implements Comparable<Number> {
      * @param exponent power of which this is being raised
      * @return `Rational` result of raising this object to the power of exponent
      */
-    public Rational raisedToThePowerOf(int exponent) {
+    public Rational raisedToThePowerOf(int exponent) throws IllegalArgumentException {
         if (exponent == 0) {
             return new Rational(1, 1);
         } else if (exponent < 0 && this._numerator == 0) {

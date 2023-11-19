@@ -1464,6 +1464,12 @@ public class RationalTest
         }
     }
 
+    public void testNormalUsage7() {
+        assertThat("Large String", new Rational(Integer.MAX_VALUE, Integer.MAX_VALUE - 1).toString(),
+                is("2147483647/2147483646"));
+        assertThat("Large String", new Rational(Integer.MIN_VALUE, 3).toString(), is("-2147483648/3"));
+    }
+
     public void testComparisonToNaN() {
         Rational value = new Rational(1, 2);
 
@@ -1530,6 +1536,39 @@ public class RationalTest
         Rational value = new Rational(0);
         assertThat(value.equals(value), is(true));
         assertThat(value.compareTo(value), is(0));
+    }
+
+    public void testArithmeticZeroToZero() {
+        Rational value = new Rational();
+
+        assertThat(value.lessThan(value), is(false));
+        assertThat(value.greaterThan(value), is(false));
+        assertThat(value.times(value).compareTo(0), is(0));
+        assertThat(value.plus(new Rational()).intValue(), is(0));
+        assertThat(value.minus(new Rational()).intValue(), is(0));
+        assertThat(value.times(new Rational()).intValue(), is(0));
+        assertThat(value.dividedBy(new Rational(1)).intValue(), is(0));
+    }
+
+    public void testArithmeticWithZero() {
+        Rational positiveValue = new Rational(1234);
+        Rational negativeValue = new Rational(-1234, 98765);
+
+        assertThat(positiveValue.plus(new Rational()).equals(positiveValue), is(true));
+        assertThat(positiveValue.minus(new Rational()).equals(positiveValue), is(true));
+        assertThat(positiveValue.times(new Rational()).equals(new Rational()), is(true));
+
+        assertThat(new Rational().plus(positiveValue).equals(positiveValue), is(true));
+        assertThat(new Rational().minus(positiveValue).equals(positiveValue.opposite()), is(true));
+        assertThat(new Rational().times(positiveValue).equals(new Rational()), is(true));
+
+        assertThat(negativeValue.plus(new Rational()).equals(negativeValue), is(true));
+        assertThat(negativeValue.minus(new Rational()).equals(negativeValue), is(true));
+        assertThat(negativeValue.times(new Rational()).equals(new Rational()), is(true));
+
+        assertThat(new Rational().plus(negativeValue).equals(negativeValue), is(true));
+        assertThat(new Rational().minus(negativeValue).equals(negativeValue.opposite()), is(true));
+        assertThat(new Rational().times(negativeValue).equals(new Rational()), is(true));
     }
 
     public void testLargeNumbers() {
