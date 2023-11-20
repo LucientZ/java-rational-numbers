@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 public class Rational extends Number implements Comparable<Number> {
     private int _numerator = 0;
     private int _denominator = 1;
-    private final static float FLOAT_PRECISION = 0.0001F;
-    private final static double DOUBLE_PRECISION = 0.0001;
+    private final static float FLOAT_PRECISION = Math.ulp(1.0F);
+    private final static double DOUBLE_PRECISION = Math.ulp(1.0);
 
     /**
      * Default constructor. Creates a new `Rational` with a value 0 / 1
@@ -112,6 +112,7 @@ public class Rational extends Number implements Comparable<Number> {
 
         // Attempts to reduce overflow by switching numerators and denominators which
         // simplifies the equation.
+
         Rational reduced1 = new Rational(this._numerator, multiplier.denominator());
         Rational reduced2 = new Rational(multiplier.numerator(), this._denominator);
         return new Rational(reduced1.numerator() * reduced2.numerator(),
@@ -139,8 +140,8 @@ public class Rational extends Number implements Comparable<Number> {
      */
     public Rational plus(Rational addend) {
         // Find the greatest common devisor between the numerators and denominators
-        int numeratorGCD = this.gcd(this._numerator, addend.numerator());
-        int denominatorGCD = this.gcd(this._denominator, addend.denominator());
+        int numeratorGCD = (int) this.gcd(this._numerator, addend.numerator());
+        int denominatorGCD = (int) this.gcd(this._denominator, addend.denominator());
 
         // Create firstNumeratorTerm and secondNumeratorTerm for easier readability
         // These will be added together to form the numerator
@@ -189,9 +190,6 @@ public class Rational extends Number implements Comparable<Number> {
         // Object to be stored as result later
         Rational result = new Rational(1, 1);
 
-        // Takes absolute value of exponent given.
-        exponent = Math.abs(exponent);
-
         // Fast powering which multiplies base times self or result based on if exponent
         // is even
         while (exponent > 0) {
@@ -222,7 +220,7 @@ public class Rational extends Number implements Comparable<Number> {
      * @return boolean as to whether this is canonical 1
      */
     public boolean isOne() {
-        return this._numerator == this._denominator;
+        return this._numerator > 0 && this._numerator == this._denominator;
     }
 
     /**
@@ -231,7 +229,7 @@ public class Rational extends Number implements Comparable<Number> {
      * @return boolean as to whether this is canonical -1
      */
     public boolean isMinusOne() {
-        return (this._numerator * -1) == this._denominator;
+        return this._numerator < 0 && (this._numerator * -1) == this._denominator;
     }
 
     /**
@@ -242,7 +240,7 @@ public class Rational extends Number implements Comparable<Number> {
      *         value
      */
     public boolean lessThan(Rational comparand) {
-        if (comparand == null || this._numerator >= 0 && comparand.numerator() < 0) {
+        if (comparand == null || this._numerator >= 0 && comparand.numerator() < 0 || this.equals(comparand)) {
             return false;
         } else if (this._numerator < 0 && comparand.numerator() >= 0) {
             return true;
@@ -288,7 +286,7 @@ public class Rational extends Number implements Comparable<Number> {
      *         `Rational` value
      */
     public boolean greaterThan(Rational comparand) {
-        if (comparand == null || this._numerator < 0 && comparand.numerator() >= 0) {
+        if (comparand == null || this._numerator < 0 && comparand.numerator() >= 0 || this.equals(comparand)) {
             return false;
         } else if (this._numerator >= 0 && comparand.numerator() < 0) {
             return true;
@@ -339,6 +337,8 @@ public class Rational extends Number implements Comparable<Number> {
     public boolean equals(Object object) {
         if (!(object instanceof Number)) {
             return false;
+        } else if (this == object) {
+            return true;
         } else if (object instanceof Float && Float.isNaN((Float) object)) {
             return false;
         } else if (object instanceof Double && Double.isNaN((Double) object)) {
@@ -371,6 +371,13 @@ public class Rational extends Number implements Comparable<Number> {
     public String toString() {
         if (this._denominator == 1) {
             return this._numerator + "";
+        } else if (this._denominator < 0 && this._numerator > 0) {
+            // In the case where the denominator is the min_value, simplifying did not work,
+            // so we have to represent it differently.
+            return "-" + this._numerator + "/" + String.format("%d", this._denominator).substring(1);
+        } else if (this._numerator < 0 && this._denominator < 0) {
+            return String.format("%d", this._numerator).substring(1) + "/"
+                    + String.format("%d", this._denominator).substring(1);
         } else {
             return this._numerator + "/" + this._denominator;
         }
@@ -381,36 +388,23 @@ public class Rational extends Number implements Comparable<Number> {
      * is in numerator and both numbers are divided by their gcd
      */
     private void simplify() {
+        // If numerator is 0, denominator is always 1
+        if (this._numerator == 0) {
+            this._denominator = 1;
+            return;
+        }
+        
+        // Divides numerator and denominator by greatest common divisor to simplify
+        long divisor = gcd((long) this._numerator, (long) this._denominator);
+        this._numerator /= divisor;
+        this._denominator /= divisor;
+        
         // Flips both signs if we have -a / -b or a / -b
-        if (this._denominator < 0) {
+        // Don't do this if denominator is -2147483648
+        if (this._denominator < 0 && this._denominator != Integer.MIN_VALUE) {
             this._numerator *= -1;
             this._denominator *= -1;
         }
-
-        // Divides numerator and denominator by greatest common divisor to simplify
-        int divisor = gcd(this._numerator, this._denominator);
-        this._numerator /= divisor;
-        this._denominator /= divisor;
-    }
-
-    /**
-     * Helper method which implements the euclidean algorithm for computing gcd.
-     * This is most useful when simplifying a fraction
-     * 
-     * @param a First integer to be compared
-     * @param b Second integer to be compared
-     * @return greatest common divisor between two numbers
-     */
-    private int gcd(int a, int b) {
-        if (a == 0 && b == 0) {
-            return 1;
-        }
-        while (b != 0) {
-            int tmp = b;
-            b = a % b;
-            a = tmp;
-        }
-        return Math.abs(a);
     }
 
     /**
@@ -422,6 +416,11 @@ public class Rational extends Number implements Comparable<Number> {
      * @return greatest common divisor between two numbers
      */
     private long gcd(long a, long b) {
+        if (a == 0 && b == 0) {
+            return 1;
+        }
+        a = Math.abs(a);
+        b = Math.abs(b);
         while (b != 0) {
             long tmp = b;
             b = a % b;
@@ -439,7 +438,7 @@ public class Rational extends Number implements Comparable<Number> {
      * @return least common multiple of two numbers
      */
     private int lcm(int a, int b) {
-        return a * (b / gcd(a, b));
+        return a * (b / (int) gcd(a, b));
     }
 
     @Override
