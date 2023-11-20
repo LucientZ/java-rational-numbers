@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 public class Rational extends Number implements Comparable<Number> {
     private int _numerator = 0;
     private int _denominator = 1;
-    private final static float FLOAT_PRECISION = Math.ulp(1.0F);
-    private final static double DOUBLE_PRECISION = Math.ulp(1.0);
+    private final static float FLOAT_PRECISION = 0.000001F;
+    private final static double DOUBLE_PRECISION = 0.000001;
 
     /**
      * Default constructor. Creates a new `Rational` with a value 0 / 1
@@ -240,13 +240,11 @@ public class Rational extends Number implements Comparable<Number> {
      *         value
      */
     public boolean lessThan(Rational comparand) {
-        if (comparand == null || this._numerator >= 0 && comparand.numerator() < 0 || this.equals(comparand)) {
+        if (comparand == null || this.equals(comparand)) {
             return false;
-        } else if (this._numerator < 0 && comparand.numerator() >= 0) {
-            return true;
         }
-        Rational result = this.minus(comparand);
-        return result.numerator() < 0;
+        return (long) this._numerator * (long) comparand._denominator < (long) comparand._numerator
+                * (long) this._denominator;
     }
 
     /**
@@ -286,13 +284,11 @@ public class Rational extends Number implements Comparable<Number> {
      *         `Rational` value
      */
     public boolean greaterThan(Rational comparand) {
-        if (comparand == null || this._numerator < 0 && comparand.numerator() >= 0 || this.equals(comparand)) {
+        if (comparand == null || this.equals(comparand)) {
             return false;
-        } else if (this._numerator >= 0 && comparand.numerator() < 0) {
-            return true;
         }
-        Rational result = this.minus(comparand);
-        return result.numerator() > 0;
+        return (long) this._numerator * (long) comparand._denominator > (long) comparand._numerator
+                * (long) this._denominator;
     }
 
     /**
@@ -393,12 +389,12 @@ public class Rational extends Number implements Comparable<Number> {
             this._denominator = 1;
             return;
         }
-        
+
         // Divides numerator and denominator by greatest common divisor to simplify
         long divisor = gcd((long) this._numerator, (long) this._denominator);
         this._numerator /= divisor;
         this._denominator /= divisor;
-        
+
         // Flips both signs if we have -a / -b or a / -b
         // Don't do this if denominator is -2147483648
         if (this._denominator < 0 && this._denominator != Integer.MIN_VALUE) {

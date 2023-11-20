@@ -1518,6 +1518,24 @@ public class RationalTest
         assertThat(value3.toString(), is("1"));
     }
 
+    public void testNormalUsage12() {
+        Rational value = new Rational(Integer.MAX_VALUE, Integer.MAX_VALUE - 1);
+
+        assertThat(value.compareTo(1), is(1));
+        assertThat(value.compareTo(1L), is(1));
+
+        value = new Rational(Integer.MAX_VALUE - 1, Integer.MAX_VALUE);
+
+        assertThat(value.compareTo(1), is(-1));
+        assertThat(value.compareTo(1L), is(-1));
+    }
+
+    public void testNormalUsage13() {
+        Rational value = new Rational(Integer.MAX_VALUE, Integer.MIN_VALUE);
+        assertThat(value.compareTo(1), is(-1));
+        assertThat(value.compareTo(1L), is(-1));
+    }
+
     public void testComparisonToNaN() {
         Rational value = new Rational(1, 2);
 
@@ -1654,5 +1672,32 @@ public class RationalTest
 
         assertThat(temp.numerator(), is(3628800));
         assertThat(temp.denominator(), is(1));
+    }
+
+    public void testMultiComparison() {
+        Number intValue = Integer.valueOf(0);
+        Number longValue = Long.valueOf(0);
+        Number floatValue = Float.valueOf(0.0F + 70000.0F - 35000.0F - 35000.0F);
+        Number doubleValue = Double.valueOf(0.0 + 30000.0 - 35000.0 - 35000.0);
+
+        assertThat(new Rational().compareTo(intValue), is(0));
+        assertThat(new Rational().compareTo(longValue), is(0));
+        assertThat(new Rational().compareTo(floatValue), is(0));
+        assertThat(new Rational().compareTo(doubleValue), is(1));
+    }
+
+    public void testObjectEquals() {
+        Comparable<Number> value1 = new Rational(2);
+        Object value2 = new Rational(2);
+
+        assertThat("Generic objects are equal if they are rationals with same value", value1.equals(value2), is(true));
+        assertThat("Generic objects are equal if they are rationals with same value", value2.equals(value1), is(true));
+    }
+
+    public void testOtherTypeCompareTo() {
+        Number value1 = new Rational(5);
+        Comparable<Number> value2 = new Rational(10);
+
+        assertThat(value2.compareTo(value1), is(1));
     }
 }
