@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 public class Rational extends Number implements Comparable<Number> {
     private int _numerator = 0;
     private int _denominator = 1;
-    private final static float FLOAT_PRECISION = 0.000001F;
-    private final static double DOUBLE_PRECISION = 0.000001;
+    private final static float FLOAT_PRECISION = 1F/1048576F;
+    private final static double DOUBLE_PRECISION = 1D/1048576D;
 
     /**
      * Default constructor. Creates a new `Rational` with a value 0 / 1
